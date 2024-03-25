@@ -1,0 +1,254 @@
+ 
+ 
+	for (auto i : InputManager::getPressed()) {
+		
+		//if the action is key release, skip it
+		if(!i.second->action) 
+			continue;
+		
+		/*
+		switch (i.first) {
+			case GLFW_KEY_1: currentCamera = &pCamera; break;
+			case GLFW_KEY_2: currentCamera = &oCamera; break;
+			case GLFW_KEY_SPACE:
+				if (moveLightSource) {
+					this->pointLight.setColor(1.f, 1.f, 1.f);
+					this->moveLightSource = false;
+				}
+				else {
+					this->pointLight.setColor(2.f, 0.5f, 1.f);
+					this->moveLightSource = true;
+				}
+				break;
+			case GLFW_KEY_A:
+				if (moveLightSource) {
+
+				}
+				else {
+					this->processMainObjectYRotate(true);
+				}
+				break;
+			case GLFW_KEY_D:
+				if (moveLightSource) {
+
+				}
+				else {
+					this->processMainObjectYRotate(false);
+				}
+				break;
+			case GLFW_KEY_W:
+				if (moveLightSource) {
+
+				}
+				else {
+					this->processMainObjectXRotate(true);
+				}
+				break;
+			case GLFW_KEY_S:
+				if (moveLightSource) {
+
+				}
+				else {
+					this->processMainObjectXRotate(false);
+				}
+				break;
+			case GLFW_KEY_Q:
+				if (moveLightSource) {
+
+				}
+				else {
+					this->processMainObjectZRotate(true);
+				}
+				break;
+			case GLFW_KEY_E:
+				if (moveLightSource) {
+
+				}
+				else {
+					this->processMainObjectZRotate(false);
+				}
+				break;
+			case GLFW_KEY_LEFT:
+				this->directionLight.setBrightness(this->directionLight.getBrightness() + 10.5f);
+				break;
+			case GLFW_KEY_RIGHT:
+				this->directionLight.setBrightness(this->directionLight.getBrightness() - 10.5f);
+				break;
+			case GLFW_KEY_UP:
+				this->pointLight.setBrightness(this->pointLight.getBrightness() + 20.5f);
+				break;
+			case GLFW_KEY_DOWN:
+				this->pointLight.setBrightness(this->pointLight.getBrightness() - 20.5f);
+				break;
+			default: break;
+		}
+		*/	
+	}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ #pragma once
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "../ShaderManager/ShaderManager.hpp"
+
+/*Reference:
+
+	LearnOpenGL. (n.d.) Camera.
+		Retrieved from: https://learnopengl.com/Getting-started/Camera
+
+*/
+
+class Camera {
+
+
+private:
+	glm::vec3 cameraPos;
+	glm::vec3 cameraFront;
+	glm::vec3 cameraUp;
+
+private:
+	float fov;
+	/*Determines if the window detects the mouse for the first time*/
+	bool firstMouseEnter = true;
+
+private:
+
+	float lastX;
+	float lastY;
+	float x_Rotation; //pitch
+	float y_Rotation; //yaw
+
+
+private:
+	static Camera* instance;
+
+private:
+	Camera();
+	Camera(const Camera&);
+	Camera& operator= (const Camera&);
+
+public:
+	static Camera* getInstance();
+	static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+	void draw(ShaderManager& shader);
+
+	glm::vec3 getCameraPos();
+	void setCameraPos(glm::vec3 vec);
+
+	glm::vec3 getCameraFront();
+	void setCameraFront(glm::vec3 vec);
+
+	glm::vec3 getCameraUp();
+
+};
+
+#include "Camera.hpp"
+#include <iostream>
+
+/*Holds everything needed for camera*/
+
+Camera* Camera::instance = NULL;
+//bool Camera::firstMouse = true;
+
+Camera::Camera() {
+	this->cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	this->cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	this->cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	this->fov = 60.f;
+    this->firstMouseEnter = true;
+
+	this->lastX = 500;
+	this->lastY = 300;
+	this->x_Rotation = 0; //pitch
+	this->y_Rotation = -90; //yaw
+}
+Camera::Camera(const Camera&): Camera() {}
+
+Camera* Camera::getInstance() {
+	if(!instance) 
+		instance = new Camera;
+	return instance;
+	return instance;
+}
+
+
+/*this method is for obtaining the xpos and ypos of the mouse/cursor location*/
+void Camera::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+	
+	Camera* c = getInstance();
+
+    if (c->firstMouseEnter)
+    {   
+        c->lastX = xpos;
+        c->lastY = ypos;
+        c->firstMouseEnter = false;
+    }
+
+    float xoffset = xpos - c->lastX;
+    float yoffset = c->lastY - ypos;
+    c->lastX = xpos;
+    c->lastY = ypos;
+
+    float sensitivity = 0.1f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    c->y_Rotation += xoffset;
+    c->x_Rotation += yoffset;
+
+    if (c->x_Rotation > 89.0f)
+        c->x_Rotation = 89.0f;
+    if (c->x_Rotation < -89.0f)
+        c->x_Rotation = -89.0f;
+
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(c->y_Rotation)) * cos(glm::radians(c->x_Rotation));
+    direction.y = sin(glm::radians(c->x_Rotation));
+    direction.z = sin(glm::radians(c->y_Rotation)) * cos(glm::radians(c->x_Rotation));
+    c->cameraFront = glm::normalize(direction);
+
+}
+
+/*Method calls for camera rendering*/
+void Camera::draw(ShaderManager& shader) {
+       
+    glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(this->fov), 1280.f / 720.f, 0.1f, 100.f);
+
+    unsigned int projectionLoc = glGetUniformLocation(*shader.getShaderProg(), "projection");
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
+    unsigned int viewLoc = glGetUniformLocation(*shader.getShaderProg(), "view");
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
+}
+
+
+/*Getters and Setters*/
+glm::vec3 Camera::getCameraPos(){ return this->cameraPos;}
+void Camera::setCameraPos(glm::vec3 vec) {this->cameraPos = vec;}
+
+glm::vec3 Camera::getCameraFront() {return this->cameraFront;}
+void Camera::setCameraFront(glm::vec3 vec) {this->cameraFront = vec;}
+
+glm::vec3 Camera::getCameraUp() {return this->cameraUp;}
+
