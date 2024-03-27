@@ -146,7 +146,9 @@
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Camera\Orthographic\OrthographicCamera.cpp" />
+    <ClCompile Include="Camera\Perspective\FirstPerson\FirstPerson.cpp" />
     <ClCompile Include="Camera\Perspective\PerspectiveCamera.cpp" />
+    <ClCompile Include="Camera\Perspective\ThirdPerson\ThirdPerson.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="Light\DirectionLight.cpp" />
@@ -164,7 +166,9 @@
   <ItemGroup>
     <ClInclude Include="Camera\Camera.hpp" />
     <ClInclude Include="Camera\Orthographic\OrthographicCamera.hpp" />
+    <ClInclude Include="Camera\Perspective\FirstPerson\FirstPerson.hpp" />
     <ClInclude Include="Camera\Perspective\PerspectiveCamera.hpp" />
+    <ClInclude Include="Camera\Perspective\ThirdPerson\ThirdPerson.hpp" />
     <ClInclude Include="Config.hpp" />
     <ClInclude Include="InputManager\InputManager.hpp" />
     <ClInclude Include="Light\DirectionLight.hpp" />

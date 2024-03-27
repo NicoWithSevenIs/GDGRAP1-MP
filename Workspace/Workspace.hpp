@@ -12,7 +12,8 @@
 #include "../InputManager/InputManager.hpp"
 
 #include "../Camera/Camera.hpp"
-#include "../Camera/Perspective/PerspectiveCamera.hpp"
+#include "../Camera/Perspective/FirstPerson/FirstPerson.hpp"
+#include "../Camera/Perspective/ThirdPerson/ThirdPerson.hpp"
 #include "../Camera/Orthographic/OrthographicCamera.hpp"
 
 #include "glm/glm.hpp"
@@ -38,8 +39,10 @@ class Workspace {
 		bool isMovingLightSource;
 	
 		Camera* currentCamera;
-		Perspective pCamera;
+		FirstPerson pCamera;
+		ThirdPerson tCamera;
 		Orthographic oCamera;
+
 
 		
 	private:

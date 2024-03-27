@@ -19,8 +19,8 @@ struct PressData {
 	std::vector<std::function<void()>> onPress;
 
 
-	void Invoke(int action) {
-		if(action == GLFW_RELEASE)
+	void Invoke() {
+		if(this->action == GLFW_RELEASE)
 			return;
 
 		for (auto f : onPress)
@@ -48,6 +48,7 @@ class InputManager {
 
 
 	private:
+		bool bSwitch = true;
 		bool firstMouseEnter = true;
 
 	//Third-Person Camera
@@ -72,7 +73,11 @@ class InputManager {
 	public:
 		void updateCurrentLookAt(float x, float y);
 		glm::vec3 getCurrentLookAt();
-	
+
+		void setSwitch(bool val) {
+			this->bSwitch = val;
+		}
+		
 
 
 

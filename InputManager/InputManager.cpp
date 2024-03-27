@@ -2,7 +2,7 @@
 #include "../Config.hpp"
 
 void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	getInstance()->pressed[key].Invoke(action);
+	getInstance()->pressed[key].action = action;
 }
 
 
@@ -10,17 +10,22 @@ void InputManager::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 	
 	InputManager* i = getInstance();
     
+    //to prevent jumps between camera swithcing.
+    //set isFirstMouseEnter to true when switching
+    //handle first mouse enter in each respective update
+
 
     if (i->firstMouseEnter)
     {
         i->previousHover = glm::vec2(xpos, ypos);
-        i->previous = glm::vec2(xpos, ypos);
         i->firstMouseEnter = false;
         return;
     }
 
-    i->updateCurrentLookAt(xpos, ypos);
-
+    if(i->bSwitch)
+        i->updateCurrentLookAt(xpos, ypos);
+    else
+        i->updateHoverDelta(xpos, ypos);
 }
 
 
@@ -48,7 +53,7 @@ void InputManager::updateCurrentLookAt(float x, float y) {
 
     
     i->currentLookAt = glm::normalize(direction);
-   
+
 }
 
 glm::vec3 InputManager::getCurrentLookAt(){return this->currentLookAt;}
@@ -56,10 +61,10 @@ glm::vec3 InputManager::getCurrentLookAt(){return this->currentLookAt;}
 
 
 void InputManager::updateHoverDelta(float x, float y) {
-    /*
+    
     InputManager* i = getInstance();
-    i->delta = i->previous - glm::vec2(x, y);
-    */
+    i->currentHover = glm::vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2) - glm::vec2(x, y);
+    
 }
 glm::vec2 InputManager::getHoverDelta(){return this->currentHover;}
 

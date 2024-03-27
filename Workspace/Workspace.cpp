@@ -3,6 +3,7 @@
 
 Workspace::Workspace(): 
 	pCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
+	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
 	oCamera(glm::vec3(0, 3.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(3, -1, 100))
 {
 	this->window = NULL;
@@ -81,10 +82,45 @@ void Workspace::subscribe() {
 
 	std::unordered_map<int, PressData>& i = InputManager::getPressed();
 
+	float cameraSpeed = 0.01f;
 
-	i[GLFW_KEY_SPACE] += [this]() {
-		Utils::printVec3(currentCamera->getCameraFront());
+
+	i[GLFW_KEY_1] += [this]() {
+		this->currentCamera = &this->pCamera;
+		InputManager::getInstance()->setSwitch(true);
 	};
+
+	i[GLFW_KEY_2] += [this]() {
+		this->currentCamera = &this->oCamera;
+	};
+
+	i[GLFW_KEY_3] += [this]() {
+		this->currentCamera = &this->tCamera;
+		InputManager::getInstance()->setSwitch(false);
+	};
+
+
+
+
+	i[GLFW_KEY_W] += [this, cameraSpeed]() {
+		pCamera.setCameraPos(pCamera.getCameraPos() + cameraSpeed * pCamera.getCameraFront());
+	};
+
+	i[GLFW_KEY_A] += [this, cameraSpeed]() {
+		pCamera.setCameraPos(pCamera.getCameraPos() - cameraSpeed * (
+			glm::normalize(glm::cross(pCamera.getCameraFront(), glm::vec3(0, 1, 0)))));
+	};
+
+	i[GLFW_KEY_S] += [this, cameraSpeed]() {
+		pCamera.setCameraPos(pCamera.getCameraPos() - cameraSpeed * pCamera.getCameraFront());
+	};
+
+	i[GLFW_KEY_D] += [this, cameraSpeed]() {
+		pCamera.setCameraPos(pCamera.getCameraPos() + cameraSpeed * (
+			glm::normalize(glm::cross(pCamera.getCameraFront(), glm::vec3(0, 1, 0)))));
+	};
+
+	
 
 }
 
@@ -130,7 +166,13 @@ void Workspace::setUnlit(bool value) {
 
 
 
-void Workspace::update() {}
+void Workspace::update() {
+	std::unordered_map<int, PressData>& i = InputManager::getPressed();
+	for (auto j : i) {
+		if(j.second.action != GLFW_RELEASE)
+			j.second.Invoke();
+	}
+}
 
 
 //Main Loop

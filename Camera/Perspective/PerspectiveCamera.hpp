@@ -6,14 +6,14 @@
 class Perspective : public Camera {
 	
 
-	private:
+	protected:
 		float fieldOfView;
 
 	public:
 		Perspective(glm::vec3 cameraPos, glm::vec3 cameraFront);
 
 	public:
-		void Draw();
+		virtual void Draw() = 0;
 
 };
 
