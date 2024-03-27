@@ -2,7 +2,7 @@
 #include "../Config.hpp"
 
 Workspace::Workspace(): 
-	pCamera(glm::vec3(0.0f, 0.4f, 1.0f), glm::vec3(0.f, 0.f, -1.0f)),
+	pCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
 	oCamera(glm::vec3(0, 3.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(3, -1, 100))
 {
 	this->window = NULL;
@@ -10,6 +10,7 @@ Workspace::Workspace():
 	this->isMovingLightSource = false;
 	this->currentCamera = &pCamera;
 
+	Utils::printVec3(currentCamera->getCameraFront());
 }
 Workspace::Workspace(const Workspace&) : Workspace() {}
 
@@ -33,6 +34,7 @@ bool Workspace::awake() {
 
 	//Sets Input callbacks from Input Manager static methods
 	glfwSetKeyCallback(this->window, InputManager::keyCallback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, InputManager::mouseCallback);
 
 
@@ -79,79 +81,17 @@ void Workspace::subscribe() {
 
 	std::unordered_map<int, PressData>& i = InputManager::getPressed();
 
-	i[GLFW_KEY_1] += [this](){ 
-		currentCamera = &pCamera; 
-	};
-
-	i[GLFW_KEY_2] += [this]() { 
-		currentCamera = &oCamera; 
-	};
 
 	i[GLFW_KEY_SPACE] += [this]() {
-		isMovingLightSource = !isMovingLightSource;
-		this->pointLight.setColor(isMovingLightSource ? glm::vec3(2.f,0.5f,1.f ): glm::vec3(1.f, 1.f, 1.f));
+		Utils::printVec3(currentCamera->getCameraFront());
 	};
 
-	i[GLFW_KEY_W] += [this]() {
-		configureRotation((int)isMovingLightSource, glm::vec3(1.f, 0.f, 0.f), 5.f);
-		if(isMovingLightSource)
-			models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(0.f, 5.f, 0.f));
-	};
-
-	i[GLFW_KEY_S] += [this]() {
-		configureRotation((int)isMovingLightSource, glm::vec3(1.f, 0.f, 0.f), -5.f);
-		if (isMovingLightSource)
-			models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(0.f, 5.f, 0.f));
-	};
-
-
-	i[GLFW_KEY_A] += [this]() {
-		configureRotation((int)isMovingLightSource, glm::vec3(0.f, 1.f, 0.f), -5.f);
-		if (isMovingLightSource)
-			models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	};
-
-	i[GLFW_KEY_D] += [this]() {
-		configureRotation((int)isMovingLightSource, glm::vec3(0.f, 1.f, 0.f), 5.f);
-		if (isMovingLightSource)
-			models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	};
-
-
-	i[GLFW_KEY_Q] += [this]() {
-		configureRotation((int)isMovingLightSource, glm::vec3(0.f, 0.f, 1.f), 5.f);
-		if (isMovingLightSource)
-			models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	};
-
-	i[GLFW_KEY_E] += [this]() {
-		configureRotation((int)isMovingLightSource, glm::vec3(0.f, 0.f, 1.f), -5.f);
-		if (isMovingLightSource)
-			models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	};
-
-	i[GLFW_KEY_LEFT] += [this](){
-		directionLight.setBrightness(this->directionLight.getBrightness() + 10.5f);
-	};
-
-	i[GLFW_KEY_RIGHT] += [this]() {
-		directionLight.setBrightness(this->directionLight.getBrightness() - 10.5f);
-	};
-
-	i[GLFW_KEY_UP] += [this]() {
-		pointLight.setBrightness(this->pointLight.getBrightness() + 20.5f);
-	};
-
-	i[GLFW_KEY_DOWN] += [this]() {
-		pointLight.setBrightness(this->pointLight.getBrightness() - 20.5f);
-	};
-
-	
 }
 
 
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
+	
 	
 	currentCamera->Draw();
 
@@ -168,7 +108,6 @@ void Workspace::render() {
 
 	this->pointLight.setPosition(models[1]->getTransform().getTransformedPosition());
 
-	//models[1]->getTransform().incrementTheta(1.f);
 	models[1]->Draw();
 	this->setUnlit(true);
 
@@ -187,13 +126,7 @@ void Workspace::setUnlit(bool value) {
 	glUniform1i(isUnlitAddress, toNum);
 }
 
-//helper method for rotating the model and the light source
-void Workspace::configureRotation(int index, glm::vec3 v, float thetaOffset) {
-	this->models[index]->getTransform().setVector(TransformType::RotationAxis, v);
-	this->models[index]->getTransform().incrementTheta(thetaOffset);
 
-
-}
 
 void Workspace::update() {}
 

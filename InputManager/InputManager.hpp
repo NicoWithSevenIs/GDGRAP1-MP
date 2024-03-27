@@ -3,9 +3,13 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-#include <unordered_map>
+
 #include <functional>
+#include <algorithm>
+
 #include <vector>
+#include <unordered_map>
+
 
 #include "../../Utilities.h"
 
@@ -40,14 +44,40 @@ class InputManager {
 	private:
 		std::unordered_map<int, PressData> pressed;
 
-	//Mouse
+	/*Mouse*/
+
+
 	private:
 		bool firstMouseEnter = true;
 
+	//Third-Person Camera
+	private:
 		//stores viewport coordinate data
-		glm::vec2 previous;
-		glm::vec2 delta;
+		glm::vec2 previousHover;
+		glm::vec2 currentHover;
 
+	public:
+		void updateHoverDelta(float x, float y);
+		glm::vec2 getHoverDelta();
+
+
+	//First-Person Camera
+	private:
+		float sensitivity = 0.1f;
+		glm::vec2 previous;
+		glm::vec2 rotation;
+		
+
+		glm::vec3 currentLookAt;
+	public:
+		void updateCurrentLookAt(float x, float y);
+		glm::vec3 getCurrentLookAt();
+	
+
+
+
+
+	#pragma region Singleton
 	private:
 		static InputManager* instance;
 
@@ -56,16 +86,12 @@ class InputManager {
 		InputManager(const InputManager&);
 		InputManager& operator=(const InputManager&);
 
-
-	public:
-		glm::vec2 getDelta();
-
 	public:
 		static InputManager* getInstance();
 		static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 
 		static std::unordered_map<int, PressData>& getPressed();
-
+	#pragma endregion
 		
 };
