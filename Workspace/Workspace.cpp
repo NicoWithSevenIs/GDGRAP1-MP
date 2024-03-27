@@ -128,9 +128,9 @@ void Workspace::subscribe() {
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
 	
-	this->skybox[0]->Draw(currentCamera->getViewMatrix(), currentCamera->getProjectionMatrix());
-
 	currentCamera->Draw();
+
+	this->skybox[0]->Draw(currentCamera->getViewMatrix(), currentCamera->getProjectionMatrix());
 
 	this->directionLight.Draw();
 	this->pointLight.Draw();

@@ -21,8 +21,10 @@ void ThirdPerson::Draw() {
     delta *= 0.2;
     viewMatrix = glm::rotate(viewMatrix, glm::radians(-delta.y), glm::vec3(1,0,0));
     viewMatrix = glm::rotate(viewMatrix, glm::radians(-delta.x), glm::vec3(0,1,0));
+    this->viewMatrix = viewMatrix;
 
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(this->fieldOfView), 1280.f / 720.f, 0.1f, 100.f);
+    this->projectionMatrix = projectionMatrix;
 
     auto modelShader = ShaderManager::getModelShader();
     unsigned int projectionLoc = glGetUniformLocation(*modelShader, "projection");
