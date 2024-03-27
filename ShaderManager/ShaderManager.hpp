@@ -11,9 +11,11 @@
 class ShaderManager {
 	private:
 		std::unordered_map<std::string, GLuint*> shaders;
-	
+		unsigned int skyboxShader;
+
 	public:
 		void LoadShader(std::string key, std::string path, unsigned int shader_type);
+		void LoadSkyboxShader();
 
 	/*
 	
@@ -34,7 +36,7 @@ class ShaderManager {
 	public:
 		static void LoadShaders();
 		static GLuint* getModelShader();
-		static GLuint* getSkyboxShader();
+		static unsigned int* getSkyboxShader();
 
 
 };
