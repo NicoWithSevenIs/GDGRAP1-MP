@@ -10,6 +10,7 @@ void Orthographic::Draw(){
     Camera::Draw();
 
     glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    this->viewMatrix = viewMatrix;
 
     glm::mat4 projectionMatrix = glm::ortho(
          this->orthoData.left,
@@ -19,6 +20,8 @@ void Orthographic::Draw(){
          this->orthoData.znear,
          this->orthoData.zfar
      );
+
+    this->projectionMatrix = projectionMatrix;
     
     auto modelShader = ShaderManager::getModelShader();
 

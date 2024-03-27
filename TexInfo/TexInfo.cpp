@@ -13,14 +13,38 @@ TexInfo::TexInfo(std::string filename) {
 
 TexInfo::TexInfo(int size) {
 
+
     std::string faceSkybox[]{
-         "Skybox/underwater/uw_rt.jpg",
+      "Skybox/underwater/uw_bk.jpg",
+      "Skybox/underwater/uw_ft.jpg",
+
+      "Skybox/underwater/uw_up.jpg",
+      "Skybox/underwater/uw_dn.jpg",
+
+      
+      "Skybox/underwater/uw_lf.jpg",
+      "Skybox/underwater/uw_rt.jpg"
+      
+    };
+ /*   std::string faceSkybox[]{
          "Skybox/underwater/uw_lf.jpg",
+         "Skybox/underwater/uw_rt.jpg",
          "Skybox/underwater/uw_up.jpg",
          "Skybox/underwater/uw_dn.jpg",
          "Skybox/underwater/uw_ft.jpg",
          "Skybox/underwater/uw_bk.jpg"
-    };
+    };*/
+    
+    
+ /*   std::string faceSkybox[]{
+         "Skybox/rainbow_rt.png",
+         "Skybox/rainbow_lf.png",
+         "Skybox/rainbow_up.png",
+         "Skybox/rainbow_dn.png",
+         "Skybox/rainbow_ft.png",
+         "Skybox/rainbow_bk.png"
+    };*/
+
 
     for (unsigned int i = 0; i < size; i++) {
         int w, h, skyChannel;
@@ -31,6 +55,8 @@ TexInfo::TexInfo(int size) {
         this->vecHeight.push_back(h);
         this->vecColorChannels.push_back(skyChannel);
     }
+
+    stbi_set_flip_vertically_on_load(true);
 }
 
 TexInfo::~TexInfo() {

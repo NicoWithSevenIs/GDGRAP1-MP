@@ -5,8 +5,8 @@ Camera::Camera(glm::vec3 cameraPos, glm::vec3 cameraFront):
 	cameraFront(cameraFront),
 	cameraUp(glm::vec3(0,1,0))
 {
-	this->intiializedViewMatrix = glm::mat4(1.0f);
-	this->initializedProjectionMatrix = glm::mat4(1.0f);
+	this->viewMatrix = glm::mat4(1.0f);
+	this->projectionMatrix = glm::mat4(1.0f);
 }
 
 
@@ -28,9 +28,9 @@ void Camera::Draw() {
 }
 
 glm::mat4 Camera::getViewMatrix() {
-	return this->intiializedViewMatrix;
+	return this->viewMatrix;
 }
 
 glm::mat4 Camera::getProjectionMatrix() {
-	return this->initializedProjectionMatrix;
+	return this->projectionMatrix;
 }
