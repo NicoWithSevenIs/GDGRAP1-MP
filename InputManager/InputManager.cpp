@@ -10,7 +10,6 @@ void InputManager::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 	
 	InputManager* i = getInstance();
     
-    //Utils::printVec2({ xpos / 1280.f, ypos / 720.f });
 
     if (i->firstMouseEnter)
     {

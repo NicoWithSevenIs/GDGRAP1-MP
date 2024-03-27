@@ -160,8 +160,8 @@
     <ClInclude Include="Camera\Camera.hpp" />
     <ClInclude Include="Camera\Orthographic\OrthographicCamera.hpp" />
     <ClInclude Include="Camera\Perspective\PerspectiveCamera.hpp" />
+    <ClInclude Include="Config.hpp" />
     <ClInclude Include="InputManager\InputManager.hpp" />
-    <ClInclude Include="lib.txt" />
     <ClInclude Include="Light\DirectionLight.hpp" />
     <ClInclude Include="Light\Light.hpp" />
     <ClInclude Include="Light\PointLight.hpp" />
@@ -190,9 +190,6 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="backup.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

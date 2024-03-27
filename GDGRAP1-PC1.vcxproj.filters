@@ -74,9 +74,6 @@
     <ClInclude Include="Workspace\Workspace.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib.txt">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Model3D\Model3D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -113,9 +110,9 @@
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="backup.txt" />
+    <ClInclude Include="Config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Shaders\shaders.frag" />

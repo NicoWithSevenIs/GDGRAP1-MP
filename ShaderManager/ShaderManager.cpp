@@ -62,8 +62,6 @@ void ShaderManager::LoadShaders() {
     //i->LoadShader("Model", "Shaders/Skybox.vert", GL_VERTEX_SHADER);
     //i->LoadShader("Model", "Shaders/Skybox.frag", GL_FRAGMENT_SHADER);
 
-
- 
     //glLinkProgram(*getSkyboxShader());
 }
 

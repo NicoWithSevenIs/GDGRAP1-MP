@@ -1,5 +1,5 @@
 #include "Workspace.hpp"
-
+#include "../Config.hpp"
 
 Workspace::Workspace(): 
 	pCamera(glm::vec3(0.0f, 0.4f, 1.0f), glm::vec3(0.f, 0.f, -1.0f)),
@@ -20,7 +20,7 @@ bool Workspace::awake() {
 	if (!glfwInit())
 		return false;
 
-	this->window = glfwCreateWindow(1280, 720, "PC02-Tolentino_Nico/Ong_Lance", NULL, NULL);
+	this->window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "PC02-Tolentino_Nico/Ong_Lance", NULL, NULL);
 
 	if (!window){
 		glfwTerminate();
