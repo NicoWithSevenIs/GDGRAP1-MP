@@ -11,11 +11,15 @@
 class ShaderManager {
 	private:
 		GLuint* shaderProg;
+	private:
+		GLuint* skyboxShader;
 	public:
 		ShaderManager();
 		~ShaderManager();
 	public:
 		void LoadShader(std::string path, unsigned int shader_type);
+		void LoadSkyboxShader(std::string path, unsigned int shader_type);
 		GLuint* getShaderProg();
+		GLuint* getSkyboxShader();
 };
 

@@ -2,7 +2,7 @@
 
 
 #include "glad/glad.h"
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 #include <vector>
 #include <chrono>
@@ -20,6 +20,8 @@
 
 #include "../Light/PointLight.hpp"
 #include "../Light/DirectionLight.hpp"
+
+#include "../Skybox/Skybox.hpp"
 
 class Workspace {
 		
@@ -39,6 +41,7 @@ class Workspace {
 		Perspective pCamera;
 		Orthographic oCamera;
 
+		Skybox skyBox;
 		
 	private:
 		bool awake();
@@ -49,14 +52,6 @@ class Workspace {
 		void update();
 	private:
 		void configureRotation(int index, glm::vec3 v, float thetaOffset);
-	private:
-		void processMainObjectXRotate(bool increase);
-		void processMainObjectYRotate(bool increase);
-		void processMainObjectZRotate(bool increase);
-	private:
-		void processLightSourceXRotate(bool increase);
-		void processLightSourceYRotate(bool increase);
-		void processLightSourceZRotate(bool increase);
 	private:
 		void setUnlit(bool value);
 	public:

@@ -4,6 +4,7 @@
 Workspace::Workspace(): 
 	pCamera(glm::vec3(0.0f, 0.4f, 1.0f), glm::vec3(0.f, 0.f, -1.0f)),
 	oCamera(glm::vec3(0, 3.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(3, -1, 100))
+	//skyBox()
 {
 	this->window = NULL;
 
@@ -44,11 +45,11 @@ bool Workspace::awake() {
  
 /*Method calls in the needed shaders for the project*/
 void Workspace::start() {
-
+		
 	this->shaders.LoadShader("Shaders/shaders.vert", GL_VERTEX_SHADER);
 	this->shaders.LoadShader("Shaders/shaders.frag", GL_FRAGMENT_SHADER);
 	glLinkProgram(*this->shaders.getShaderProg());
-
+	
 	/*
 		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
 		by 1FENIL is licensed under Creative Commons Attribution 
@@ -57,7 +58,7 @@ void Workspace::start() {
 		Modified in blender to remove her weapons and scale her down (she was really big)
 	*/
 
-	models.push_back(new Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png") ));
+	models.push_back(new Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png", "2D")));
 
 	/*
 		"Anemo Slime" (https://skfb.ly/oR8Kx)
@@ -65,7 +66,7 @@ void Workspace::start() {
 		(http://creativecommons.org/licenses/by-nc/4.0/).
 	*/
 
-	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
+	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png", "2D")));
 	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
 	models[1]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
 
@@ -155,6 +156,8 @@ void Workspace::subscribe() {
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
 	
+	//this->skyBox.Draw(this->shaders);
+
 	currentCamera->Draw(this->shaders);
 
 	this->directionLight.Draw(this->shaders);
