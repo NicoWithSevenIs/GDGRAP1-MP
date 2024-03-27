@@ -27,7 +27,7 @@ class Orthographic : public Camera {
 		Orthographic(glm::vec3 cameraPos, glm::vec3 cameraFront, OrthoData orthoData);
 
 	public:
-		void Draw(ShaderManager& shader);
+		void Draw();
 	
 
 };

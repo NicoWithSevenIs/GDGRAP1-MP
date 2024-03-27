@@ -21,7 +21,7 @@ class Camera {
 		Camera(glm::vec3 cameraPos, glm::vec3 cameraFront);
 
 	public:
-		virtual void Draw(ShaderManager& shader);
+		virtual void Draw();
 
 	public:
 		glm::vec3 getCameraPos();

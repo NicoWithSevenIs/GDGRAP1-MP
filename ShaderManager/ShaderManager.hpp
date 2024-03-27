@@ -6,16 +6,36 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-
-//Handles all shader loading
+#include <unordered_map>
+//Facade Singleton class that handles all shader loading
 class ShaderManager {
 	private:
-		GLuint* shaderProg;
+		std::unordered_map<std::string, GLuint*> shaders;
+	
 	public:
+		void LoadShader(std::string key, std::string path, unsigned int shader_type);
+
+	/*
+	
+		Singleton
+	
+	*/
+
+	private:
+		static ShaderManager* instance;
+
+	private:
 		ShaderManager();
 		~ShaderManager();
+		ShaderManager(const ShaderManager&);
+		ShaderManager& operator = (const ShaderManager&);
+		static ShaderManager* getInstance();
+
 	public:
-		void LoadShader(std::string path, unsigned int shader_type);
-		GLuint* getShaderProg();
+		static void LoadShaders();
+		static GLuint* getModelShader();
+		static GLuint* getSkyboxShader();
+
+
 };
 

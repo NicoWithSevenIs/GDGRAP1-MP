@@ -58,7 +58,7 @@ ObjData Model3D::getObjData(){return this->modelInfo;}
 Transform& Model3D::getTransform(){return this->transform;}
 
 //Bind Vertex Objects -> Draw -> Unbind -> Rinse and Repeat
-void Model3D::Draw(ShaderManager& shader) {
+void Model3D::Draw() {
    
     GLintptr normPtr = 3 * sizeof(float);
     GLintptr uvptr = 6 * sizeof(float);
@@ -87,16 +87,19 @@ void Model3D::Draw(ShaderManager& shader) {
 
     glBindVertexArray(0);
 
-    GLuint tex0Address = glGetUniformLocation(*shader.getShaderProg(), "tex0");
+
+    auto modelShader = ShaderManager::getModelShader();
+
+    GLuint tex0Address = glGetUniformLocation(*modelShader, "tex0");
     glBindTexture(GL_TEXTURE_2D, texture);
     glUniform1i(tex0Address, 0);
 
-    unsigned int transformLoc = glGetUniformLocation(*shader.getShaderProg(), "transform");
+    unsigned int transformLoc = glGetUniformLocation(*modelShader, "transform");
 
     glm::mat4 transformMatrix = this->transform.getTransformMatrix();
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformMatrix));
 
-    glUseProgram(*shader.getShaderProg());
+    glUseProgram(*modelShader);
 
     glBindVertexArray(this->VAO);
 

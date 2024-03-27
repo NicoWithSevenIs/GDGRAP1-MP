@@ -115,10 +115,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\shaders.frag" />
-    <None Include="Shaders\shaders.vert" />
+    <Text Include="backup.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="backup.txt" />
+    <CopyFileToFolders Include="Shaders\shaders.frag" />
+    <CopyFileToFolders Include="Shaders\shaders.vert" />
   </ItemGroup>
 </Project>

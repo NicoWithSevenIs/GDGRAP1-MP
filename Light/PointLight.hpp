@@ -11,7 +11,7 @@ class PointLight : public Light {
 	public:
 		PointLight();
 	public:
-		void Draw(ShaderManager& shader);
+		void Draw();
 	public:
 		void setConstant(float value);
 		void setLinear(float value);

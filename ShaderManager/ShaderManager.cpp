@@ -1,19 +1,34 @@
 #include "ShaderManager.hpp"
-
+#include "../Utilities.h"
 
 /*.Cpp file holds all the glfw methods for the shader*/
 ShaderManager::ShaderManager() {
-    this->shaderProg = NULL;
+    this->shaders["Model"] = nullptr;
+    this->shaders["Skybox"] = nullptr;
 }
 
 ShaderManager::~ShaderManager() {
-    if (this->shaderProg)
-        delete shaderProg;
+    for (auto i : this->shaders) {
+        if(i.second)
+            delete i.second;
+    }
 }
 
-void ShaderManager::LoadShader(std::string path, unsigned int shader_type) {
+ShaderManager* ShaderManager::instance = nullptr;
+
+ShaderManager* ShaderManager::getInstance() {
+    if(!instance)
+        instance = new ShaderManager();
+    return instance;
+}
+
+void ShaderManager::LoadShader(std::string key, std::string path, unsigned int shader_type) {
 
     std::fstream shaderSrc(path);
+
+    if (!shaderSrc.is_open()) {
+        Utils::Log("Failed to open file");
+    }
 
     std::stringstream shaderBuff;
     shaderBuff << shaderSrc.rdbuf();
@@ -21,17 +36,42 @@ void ShaderManager::LoadShader(std::string path, unsigned int shader_type) {
     std::string shaderS = shaderBuff.str();
     const char* s = shaderS.c_str();
 
+
+
     //Initializing Shaders
     GLuint shader = glCreateShader(shader_type);
     glShaderSource(shader, 1, &s, NULL);
     glCompileShader(shader);
 
-    if (!this->shaderProg) {
-        this->shaderProg = new GLuint(glCreateProgram());
-    }
-
-    glAttachShader(*this->shaderProg, shader);
+    if(!this->shaders[key])
+        this->shaders[key] = new GLuint(glCreateProgram());
+   
+    glAttachShader(*this->shaders[key], shader);
 
 }
 
-GLuint* ShaderManager::getShaderProg() { return this->shaderProg; }
+void ShaderManager::LoadShaders() {
+   
+    auto i = getInstance();
+
+    i->LoadShader("Model", "Shaders/shaders.vert", GL_VERTEX_SHADER);
+    i->LoadShader("Model", "Shaders/shaders.frag", GL_FRAGMENT_SHADER);
+
+    glLinkProgram(*getModelShader());
+
+    //i->LoadShader("Model", "Shaders/Skybox.vert", GL_VERTEX_SHADER);
+    //i->LoadShader("Model", "Shaders/Skybox.frag", GL_FRAGMENT_SHADER);
+
+
+ 
+    //glLinkProgram(*getSkyboxShader());
+}
+
+GLuint* ShaderManager::getModelShader() {
+    return getInstance()->shaders["Model"];
+}
+
+GLuint* ShaderManager::getSkyboxShader() {
+    return getInstance()->shaders["Skybox"];
+}
+

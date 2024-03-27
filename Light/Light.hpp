@@ -23,7 +23,7 @@ class Light {
 		Light();
 
 	public:
-		virtual void Draw(ShaderManager& shader) = 0;
+		virtual void Draw() = 0;
 
 	public:
 		void setPosition(glm::vec3 pos);

@@ -5,28 +5,29 @@ DirectionLight::DirectionLight() {
 	this->lightDirection = glm::vec3(4.f, -5.f, 0.f);
 }
 
-void DirectionLight::Draw(ShaderManager& shaders) {
+void DirectionLight::Draw() {
+	
+	auto modelShader = ShaderManager::getModelShader();
 
-
-	GLuint directionLightBrightnessAddress = glGetUniformLocation(*shaders.getShaderProg(), "directionLightBrightness");
+	GLuint directionLightBrightnessAddress = glGetUniformLocation(*modelShader, "directionLightBrightness");
 	glUniform1f(directionLightBrightnessAddress, this->brightness);
 
-	GLuint lightDirectionAddress = glGetUniformLocation(*shaders.getShaderProg(), "directionLightDir");
+	GLuint lightDirectionAddress = glGetUniformLocation(*modelShader, "directionLightDir");
 	glUniform3fv(lightDirectionAddress, 1, glm::value_ptr(this->lightDirection));
 
-	GLuint lightColorAddress = glGetUniformLocation(*shaders.getShaderProg(), "directionLightColor");
+	GLuint lightColorAddress = glGetUniformLocation(*modelShader, "directionLightColor");
 	glUniform3fv(lightColorAddress, 1, glm::value_ptr(this->lightColor));
 
-	GLuint ambientStrAddress = glGetUniformLocation(*shaders.getShaderProg(), "directionLightAmbientStr");
+	GLuint ambientStrAddress = glGetUniformLocation(*modelShader, "directionLightAmbientStr");
 	glUniform1f(ambientStrAddress, this->ambientStr);
 
-	GLuint ambientColorAddress = glGetUniformLocation(*shaders.getShaderProg(), "directionLightAmbientColor");
+	GLuint ambientColorAddress = glGetUniformLocation(*modelShader, "directionLightAmbientColor");
 	glUniform3fv(ambientColorAddress, 1, glm::value_ptr(this->ambientColor));
 
-	GLuint specStrAddress = glGetUniformLocation(*shaders.getShaderProg(), "directionLightSpecStr");
+	GLuint specStrAddress = glGetUniformLocation(*modelShader, "directionLightSpecStr");
 	glUniform1f(specStrAddress, this->specStr);
 
-	GLuint specPhongAddress = glGetUniformLocation(*shaders.getShaderProg(), "directionLightSpecPhong");
+	GLuint specPhongAddress = glGetUniformLocation(*modelShader, "directionLightSpecPhong");
 	glUniform1f(specPhongAddress, this->specPhong);
 
 }

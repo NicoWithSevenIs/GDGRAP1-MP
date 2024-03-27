@@ -33,7 +33,7 @@ class Model3D {
 		void initializeBuffers();
 
 	public:
-		void Draw(ShaderManager& shader);
+		void Draw();
 
 	public:
 		ObjData getObjData();

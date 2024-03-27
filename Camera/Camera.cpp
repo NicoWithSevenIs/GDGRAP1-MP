@@ -19,7 +19,7 @@ void Camera::setCameraPos(glm::vec3 cameraPos) {
 	this->cameraPos = cameraPos;
 }
 
-void Camera::Draw(ShaderManager& shaders) {
-	GLuint cameraPosAddress = glGetUniformLocation(*shaders.getShaderProg(), "cameraPos");
+void Camera::Draw() {
+	GLuint cameraPosAddress = glGetUniformLocation(*ShaderManager::getModelShader(), "cameraPos");
 	glUniform3fv(cameraPosAddress, 1, glm::value_ptr(this->cameraPos));	
 }

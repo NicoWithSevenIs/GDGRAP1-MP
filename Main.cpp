@@ -1,7 +1,7 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
-#include "Workspace/Workspace.hpp"
 
+#include "Workspace/Workspace.hpp"
 /*
 
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -27,3 +27,4 @@ int main(void)
     Workspace::getInstance()->run();
     return 0;
 }
+

@@ -9,7 +9,7 @@ class DirectionLight : public Light {
 	public:
 		DirectionLight();
 	public:
-		void Draw(ShaderManager& shader);
+		void Draw();
 		void setDirection(float x, float y, float z);
 		glm::vec3 getLightDirection();
 };

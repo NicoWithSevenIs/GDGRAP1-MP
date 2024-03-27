@@ -4,9 +4,9 @@ Perspective::Perspective(glm::vec3 cameraPos, glm::vec3 cameraFront): Camera(cam
     this->fieldOfView = 40.f;
 }
 
-void Perspective::Draw(ShaderManager& shader) {
+void Perspective::Draw() {
 
-    Camera::Draw(shader);
+    Camera::Draw();
     //Utils::printVec3(cameraFront);
 
     //Retrieves the delta value of ScreenToViewport from InputManager then rotate the view matrix with it
@@ -22,10 +22,11 @@ void Perspective::Draw(ShaderManager& shader) {
 
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(this->fieldOfView), 1280.f / 720.f, 0.1f, 100.f);
     
-    unsigned int projectionLoc = glGetUniformLocation(*shader.getShaderProg(), "projection");
+    auto modelShader = ShaderManager::getModelShader();
+    unsigned int projectionLoc = glGetUniformLocation(*modelShader, "projection");
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
-    unsigned int viewLoc = glGetUniformLocation(*shader.getShaderProg(), "view");
+    unsigned int viewLoc = glGetUniformLocation(*modelShader, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
 }

@@ -45,9 +45,7 @@ bool Workspace::awake() {
 /*Method calls in the needed shaders for the project*/
 void Workspace::start() {
 
-	this->shaders.LoadShader("Shaders/shaders.vert", GL_VERTEX_SHADER);
-	this->shaders.LoadShader("Shaders/shaders.frag", GL_FRAGMENT_SHADER);
-	glLinkProgram(*this->shaders.getShaderProg());
+	ShaderManager::LoadShaders();
 
 	/*
 		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
@@ -155,10 +153,10 @@ void Workspace::subscribe() {
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
 	
-	currentCamera->Draw(this->shaders);
+	currentCamera->Draw();
 
-	this->directionLight.Draw(this->shaders);
-	this->pointLight.Draw(this->shaders);
+	this->directionLight.Draw();
+	this->pointLight.Draw();
 
 	/*
 
@@ -171,10 +169,10 @@ void Workspace::render() {
 	this->pointLight.setPosition(models[1]->getTransform().getTransformedPosition());
 
 	//models[1]->getTransform().incrementTheta(1.f);
-	models[1]->Draw(this->shaders);
+	models[1]->Draw();
 	this->setUnlit(true);
 
-	models[0]->Draw(this->shaders);
+	models[0]->Draw();
 	this->setUnlit(false);
 	
 }
@@ -185,7 +183,7 @@ void Workspace::setUnlit(bool value) {
 	if(toNum != 0)
 		toNum /= toNum;
 
-	GLuint isUnlitAddress = glGetUniformLocation(*shaders.getShaderProg(), "isUnlit");
+	GLuint isUnlitAddress = glGetUniformLocation(*ShaderManager::getModelShader(), "isUnlit");
 	glUniform1i(isUnlitAddress, toNum);
 }
 

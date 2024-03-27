@@ -5,9 +5,9 @@ Orthographic::Orthographic(glm::vec3 cameraPos, glm::vec3 cameraFront, OrthoData
 	Camera(cameraPos, cameraFront), orthoData(orthoData)
 {}
 
-void Orthographic::Draw(ShaderManager& shader){
+void Orthographic::Draw(){
     
-    Camera::Draw(shader);
+    Camera::Draw();
 
     glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -19,10 +19,12 @@ void Orthographic::Draw(ShaderManager& shader){
          this->orthoData.znear,
          this->orthoData.zfar
      );
- 
-    unsigned int projectionLoc = glGetUniformLocation(*shader.getShaderProg(), "projection");
+    
+    auto modelShader = ShaderManager::getModelShader();
+
+    unsigned int projectionLoc = glGetUniformLocation(*modelShader, "projection");
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
-    unsigned int viewLoc = glGetUniformLocation(*shader.getShaderProg(), "view");
+    unsigned int viewLoc = glGetUniformLocation(*modelShader, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 }

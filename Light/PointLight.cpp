@@ -8,36 +8,38 @@ PointLight::PointLight() : Light() {
 }
 
 
-void PointLight::Draw(ShaderManager& shaders) {
+void PointLight::Draw() {
 	
-	GLuint pointLightBrightnessAddress = glGetUniformLocation(*shaders.getShaderProg(), "pointLightBrightness");
+	auto modelShader = ShaderManager::getModelShader();
+
+	GLuint pointLightBrightnessAddress = glGetUniformLocation(*modelShader, "pointLightBrightness");
 	glUniform1f(pointLightBrightnessAddress, this->brightness);
 
-	GLuint lightAddress = glGetUniformLocation(*shaders.getShaderProg(), "pointLightPos");
+	GLuint lightAddress = glGetUniformLocation(*modelShader, "pointLightPos");
 	glUniform3fv(lightAddress, 1, glm::value_ptr(this->lightPosition));
 
-	GLuint lightColorAddress = glGetUniformLocation(*shaders.getShaderProg(), "pointLightColor");
+	GLuint lightColorAddress = glGetUniformLocation(*modelShader, "pointLightColor");
 	glUniform3fv(lightColorAddress, 1, glm::value_ptr(this->lightColor));
 
-	GLuint ambientStrAddress = glGetUniformLocation(*shaders.getShaderProg(), "pointLightAmbientStr");
+	GLuint ambientStrAddress = glGetUniformLocation(*modelShader, "pointLightAmbientStr");
 	glUniform1f(ambientStrAddress, this->ambientStr);
 
-	GLuint ambientColorAddress = glGetUniformLocation(*shaders.getShaderProg(), "pointLightAmbientColor");
+	GLuint ambientColorAddress = glGetUniformLocation(*modelShader, "pointLightAmbientColor");
 	glUniform3fv(ambientColorAddress, 1, glm::value_ptr(this->ambientColor));
 
-	GLuint baseConstantAddress = glGetUniformLocation(*shaders.getShaderProg(), "constant");
+	GLuint baseConstantAddress = glGetUniformLocation(*modelShader, "constant");
 	glUniform1f(baseConstantAddress, this->constant);
 
-	GLuint baseLinearAddress = glGetUniformLocation(*shaders.getShaderProg(), "linear");
+	GLuint baseLinearAddress = glGetUniformLocation(*modelShader, "linear");
 	glUniform1f(baseLinearAddress, this->linear);
 
-	GLuint baseQuadraticAddress = glGetUniformLocation(*shaders.getShaderProg(), "quadratic");
+	GLuint baseQuadraticAddress = glGetUniformLocation(*modelShader, "quadratic");
 	glUniform1f(baseQuadraticAddress, this->quadratic);
 
-	GLuint specStrAddress = glGetUniformLocation(*shaders.getShaderProg(), "pointLightSpecStr");
+	GLuint specStrAddress = glGetUniformLocation(*modelShader, "pointLightSpecStr");
 	glUniform1f(specStrAddress, this->specStr);
 
-	GLuint specPhongAddress = glGetUniformLocation(*shaders.getShaderProg(), "pointLightSpecPhong");
+	GLuint specPhongAddress = glGetUniformLocation(*modelShader, "pointLightSpecPhong");
 	glUniform1f(specPhongAddress, this->specPhong);
 
 }

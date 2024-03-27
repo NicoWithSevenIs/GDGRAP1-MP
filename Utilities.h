@@ -14,4 +14,8 @@ class Utils {
 			std::cout << "{ " << vec.x << "," << vec.y << "}" << std::endl;
 
 		}
+
+		static void Log(std::string msg) {
+			std::cout << msg << std::endl;
+		}
 };

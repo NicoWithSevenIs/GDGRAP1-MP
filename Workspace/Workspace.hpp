@@ -26,7 +26,6 @@ class Workspace {
 	private:
 		
 		GLFWwindow* window;
-		ShaderManager shaders;
 
 		std::vector<Model3D*> models;
 
@@ -49,14 +48,6 @@ class Workspace {
 		void update();
 	private:
 		void configureRotation(int index, glm::vec3 v, float thetaOffset);
-	private:
-		void processMainObjectXRotate(bool increase);
-		void processMainObjectYRotate(bool increase);
-		void processMainObjectZRotate(bool increase);
-	private:
-		void processLightSourceXRotate(bool increase);
-		void processLightSourceYRotate(bool increase);
-		void processLightSourceZRotate(bool increase);
 	private:
 		void setUnlit(bool value);
 	public:

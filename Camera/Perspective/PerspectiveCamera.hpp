@@ -13,7 +13,7 @@ class Perspective : public Camera {
 		Perspective(glm::vec3 cameraPos, glm::vec3 cameraFront);
 
 	public:
-		void Draw(ShaderManager& shader);
+		void Draw();
 
 };
 
