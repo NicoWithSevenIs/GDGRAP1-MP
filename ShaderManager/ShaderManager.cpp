@@ -46,38 +46,6 @@ void ShaderManager::LoadShader(std::string key, std::string path, unsigned int s
    
     glAttachShader(*this->shaders[key], shader);
 
-    this->LoadSkyboxShader();
-
-}
-
-void ShaderManager::LoadSkyboxShader() {
-
-    std::fstream skyboxVertSrc("Shaders/skybox.vert");
-    std::stringstream skyBoxVertBuff;
-    skyBoxVertBuff << skyboxVertSrc.rdbuf();
-
-    std::string skyBoxVertS = skyBoxVertBuff.str();
-    const char* sky_v = skyBoxVertS.c_str();
-
-    std::fstream skyboxFragSrc("Shaders/skybox.frag");
-    std::stringstream skyboxFragBuff;
-    skyboxFragBuff << skyboxFragSrc.rdbuf();
-
-    std::string sky_fragS = skyboxFragBuff.str();
-    const char* sky_f = sky_fragS.c_str();
-
-    GLuint skyboxVertShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(skyboxVertShader, 1, &sky_v, NULL);
-    glCompileShader(skyboxVertShader);
-
-    GLuint skyboxFragShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(skyboxFragShader, 1, &sky_f, NULL);
-    glCompileShader(skyboxFragShader);
-
-    GLuint skyboxShaderProg = glCreateProgram();
-    glAttachShader(skyboxShaderProg, skyboxVertShader);
-    glAttachShader(skyboxShaderProg, skyboxFragShader);
-
 }
 
 void ShaderManager::LoadShaders() {
@@ -89,8 +57,8 @@ void ShaderManager::LoadShaders() {
 
     glLinkProgram(*getModelShader());
 
-    i->LoadShader("Model", "Shaders/skybox.vert", GL_VERTEX_SHADER);
-    i->LoadShader("Model", "Shaders/skybox.frag", GL_FRAGMENT_SHADER);
+    i->LoadShader("Skybox", "Shaders/skybox.vert", GL_VERTEX_SHADER);
+    i->LoadShader("Skybox", "Shaders/skybox.frag", GL_FRAGMENT_SHADER);
 
     glLinkProgram(*getSkyboxShader());
 }
@@ -99,7 +67,7 @@ GLuint* ShaderManager::getModelShader() {
     return getInstance()->shaders["Model"];
 }
 
-unsigned int* ShaderManager::getSkyboxShader() {
-    return &getInstance()->skyboxShader;
+GLuint* ShaderManager::getSkyboxShader() {
+    return getInstance()->shaders["Skybox"];
 }
 

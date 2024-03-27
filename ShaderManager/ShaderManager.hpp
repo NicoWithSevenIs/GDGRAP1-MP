@@ -15,8 +15,7 @@ class ShaderManager {
 
 	public:
 		void LoadShader(std::string key, std::string path, unsigned int shader_type);
-		void LoadSkyboxShader();
-
+		
 	/*
 	
 		Singleton
@@ -36,7 +35,7 @@ class ShaderManager {
 	public:
 		static void LoadShaders();
 		static GLuint* getModelShader();
-		static unsigned int* getSkyboxShader();
+		static GLuint* getSkyboxShader();
 
 
 };
