@@ -1,13 +1,13 @@
 #include "Skybox.hpp"
 
-Skybox::Skybox() {	
-	this->initializeSkyboxTexture();
+Skybox::Skybox(TexInfo texture) {	
+	
 	this->initializeSkyboxBuffers();
 	this->initializeSkyboxViewAndProjection();
 }
 
 void Skybox::initializeSkyboxTexture() {
-	int width, height, colorChannels;
+	
 	glGenTextures(1, &this->texture);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, this->texture);
 

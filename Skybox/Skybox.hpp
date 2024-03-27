@@ -7,6 +7,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "../TexInfo/TexInfo.hpp"
+
 #include "vector"
 #include "string"
 #include "iostream"
@@ -23,8 +25,9 @@ class Skybox {
 		unsigned int skyboxVAO;
 		unsigned int skyboxVBO;
 		unsigned int skyboxEBO;
+
 	public:
-		Skybox(unsigned int texture);
+		Skybox(TexInfo texture);
 	private:
 		void initializeSkyboxTexture();
 		void initializeSkyboxBuffers();
