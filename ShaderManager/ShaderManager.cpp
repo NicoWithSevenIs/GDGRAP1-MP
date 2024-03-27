@@ -36,8 +36,6 @@ void ShaderManager::LoadShader(std::string key, std::string path, unsigned int s
     std::string shaderS = shaderBuff.str();
     const char* s = shaderS.c_str();
 
-
-
     //Initializing Shaders
     GLuint shader = glCreateShader(shader_type);
     glShaderSource(shader, 1, &s, NULL);
@@ -59,10 +57,10 @@ void ShaderManager::LoadShaders() {
 
     glLinkProgram(*getModelShader());
 
-    //i->LoadShader("Model", "Shaders/Skybox.vert", GL_VERTEX_SHADER);
-    //i->LoadShader("Model", "Shaders/Skybox.frag", GL_FRAGMENT_SHADER);
+    i->LoadShader("Skybox", "Shaders/skybox.vert", GL_VERTEX_SHADER);
+    i->LoadShader("Skybox", "Shaders/skybox.frag", GL_FRAGMENT_SHADER);
 
-    //glLinkProgram(*getSkyboxShader());
+    glLinkProgram(*getSkyboxShader());
 }
 
 GLuint* ShaderManager::getModelShader() {

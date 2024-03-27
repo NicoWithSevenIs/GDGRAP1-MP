@@ -156,6 +156,7 @@
     <ClCompile Include="Model3D\Model3D.cpp" />
     <ClCompile Include="ObjData\ObjData.cpp" />
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="Skybox\Skybox.cpp" />
     <ClCompile Include="TexInfo\TexInfo.cpp" />
     <ClCompile Include="Transform\Transform.cpp" />
     <ClCompile Include="Workspace\Workspace.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Model3D\Model3D.hpp" />
     <ClInclude Include="ObjData\ObjData.hpp" />
     <ClInclude Include="ShaderManager\ShaderManager.hpp" />
+    <ClInclude Include="Skybox\Skybox.hpp" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TexInfo\TexInfo.hpp" />
     <ClInclude Include="tiny_obj_loader.h" />
@@ -194,6 +196,10 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

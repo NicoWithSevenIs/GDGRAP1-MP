@@ -21,6 +21,8 @@
 #include "../Light/PointLight.hpp"
 #include "../Light/DirectionLight.hpp"
 
+#include "../Skybox/Skybox.hpp"
+
 class Workspace {
 		
 	private:
@@ -28,6 +30,7 @@ class Workspace {
 		GLFWwindow* window;
 
 		std::vector<Model3D*> models;
+		std::vector<Skybox*> skybox;
 
 		PointLight pointLight;
 		DirectionLight directionLight;

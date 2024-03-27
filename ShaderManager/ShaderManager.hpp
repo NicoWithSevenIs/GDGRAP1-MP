@@ -11,10 +11,11 @@
 class ShaderManager {
 	private:
 		std::unordered_map<std::string, GLuint*> shaders;
-	
+		unsigned int skyboxShader;
+
 	public:
 		void LoadShader(std::string key, std::string path, unsigned int shader_type);
-
+		
 	/*
 	
 		Singleton

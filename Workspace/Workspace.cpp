@@ -56,7 +56,7 @@ void Workspace::start() {
 
 		Modified in blender to remove her weapons and scale her down (she was really big)
 	*/
-
+	skybox.push_back(new Skybox(new TexInfo(6)));
 	models.push_back(new Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png") ));
 
 	/*
@@ -94,6 +94,8 @@ void Workspace::render() {
 	
 	
 	currentCamera->Draw();
+
+	this->skybox[0]->Draw(currentCamera->getViewMatrix(), currentCamera->getProjectionMatrix());
 
 	this->directionLight.Draw();
 	this->pointLight.Draw();
