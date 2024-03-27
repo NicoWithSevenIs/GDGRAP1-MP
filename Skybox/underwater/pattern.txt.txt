@@ -1,0 +1,12 @@
+ft, bk, up, dn, lf, rt - x
+bk, ft, dn, up, lf , rt - 
+
+
+---------------------------
+from pic:
+lf, bk, up, dn, rt, ft
+
+rainbow:
+--------
+
+ft, up, dn, rt, bk, lf

@@ -102,9 +102,9 @@ void Skybox::Draw(glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
     glUniformMatrix4fv(skyboxProjLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
     glBindVertexArray(this->VAO);
+  
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LESS);
-
     glUseProgram(*modelShader);
 }

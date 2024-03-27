@@ -12,8 +12,7 @@ class Camera {
 	
 	protected:
 		glm::mat4 viewMatrix;
-		glm::mat4 intiializedViewMatrix;
-		glm::mat4 initializedProjectionMatrix;
+		glm::mat4 projectionMatrix;
 		
 		glm::vec3 cameraPos;
 		glm::vec3 cameraUp;
