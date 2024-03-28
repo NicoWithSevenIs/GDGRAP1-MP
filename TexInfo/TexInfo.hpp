@@ -13,7 +13,7 @@
 class TexInfo {
 	
 	private:
-		bool initialized;
+		bool initialized = false;
 
 	private:
 		int img_width;

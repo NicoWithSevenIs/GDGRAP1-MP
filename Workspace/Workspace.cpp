@@ -2,16 +2,13 @@
 #include "../Config.hpp"
 
 Workspace::Workspace(): 
-	pCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
-	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
-	oCamera(glm::vec3(0, 3.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(3, -1, 100))
+	skybox(TexInfo(6))
 {
 	this->window = NULL;
 
 	this->isMovingLightSource = false;
-	this->currentCamera = &pCamera;
 
-	Utils::printVec3(currentCamera->getCameraFront());
+
 }
 Workspace::Workspace(const Workspace&) : Workspace() {}
 
@@ -38,6 +35,7 @@ bool Workspace::awake() {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, InputManager::mouseCallback);
 
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -49,6 +47,8 @@ bool Workspace::awake() {
 void Workspace::start() {
 
 	ShaderManager::LoadShaders();
+	this->player = new Player();
+	this->skybox.initialize();
 
 	/*
 		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
@@ -57,8 +57,6 @@ void Workspace::start() {
 
 		Modified in blender to remove her weapons and scale her down (she was really big)
 	*/
-	skybox.push_back(new Skybox(new TexInfo(6)));
-	models.push_back(new Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png") ));
 
 	/*
 		"Anemo Slime" (https://skfb.ly/oR8Kx)
@@ -67,11 +65,11 @@ void Workspace::start() {
 	*/
 
 	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
-	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	models[1]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
+	models[0]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
+	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
 
 	//see Transform
-	models[1]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
+	models[0]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
 
 }
 
@@ -80,57 +78,16 @@ void Workspace::start() {
 //+= operator is overloaded here, see input manager
 void Workspace::subscribe() {
 
-	std::unordered_map<int, PressData>& i = InputManager::getPressed();
-
-	float cameraSpeed = 0.01f;
-
-
-	i[GLFW_KEY_1] += [this]() {
-		this->currentCamera = &this->pCamera;
-		InputManager::getInstance()->setSwitch(true);
-	};
-
-	i[GLFW_KEY_2] += [this]() {
-		this->currentCamera = &this->oCamera;
-	};
-
-	i[GLFW_KEY_3] += [this]() {
-		this->currentCamera = &this->tCamera;
-		InputManager::getInstance()->setSwitch(false);
-	};
-
-
-
-
-	i[GLFW_KEY_W] += [this, cameraSpeed]() {
-		pCamera.setCameraPos(pCamera.getCameraPos() + cameraSpeed * pCamera.getCameraFront());
-	};
-
-	i[GLFW_KEY_A] += [this, cameraSpeed]() {
-		pCamera.setCameraPos(pCamera.getCameraPos() - cameraSpeed * (
-			glm::normalize(glm::cross(pCamera.getCameraFront(), glm::vec3(0, 1, 0)))));
-	};
-
-	i[GLFW_KEY_S] += [this, cameraSpeed]() {
-		pCamera.setCameraPos(pCamera.getCameraPos() - cameraSpeed * pCamera.getCameraFront());
-	};
-
-	i[GLFW_KEY_D] += [this, cameraSpeed]() {
-		pCamera.setCameraPos(pCamera.getCameraPos() + cameraSpeed * (
-			glm::normalize(glm::cross(pCamera.getCameraFront(), glm::vec3(0, 1, 0)))));
-	};
-
-	
-
+	player->addCameraControls();
 }
 
 
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
 	
-	currentCamera->Draw();
+	
 
-	this->skybox[0]->Draw(currentCamera->getViewMatrix(), currentCamera->getProjectionMatrix());
+	this->skybox.Draw(player->getCurrentCamera()->getViewMatrix(), player->getCurrentCamera()->getProjectionMatrix());
 
 	this->directionLight.Draw();
 	this->pointLight.Draw();
@@ -143,12 +100,12 @@ void Workspace::render() {
 
 	*/
 
-	this->pointLight.setPosition(models[1]->getTransform().getTransformedPosition());
-
-	models[1]->Draw();
-	this->setUnlit(true);
+	this->pointLight.setPosition(models[0]->getTransform().getTransformedPosition());
 
 	models[0]->Draw();
+	this->setUnlit(true);
+
+	player->Draw();
 	this->setUnlit(false);
 	
 }

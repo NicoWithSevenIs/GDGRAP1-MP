@@ -9,10 +9,10 @@ void Orthographic::Draw(){
     
     Camera::Draw();
 
-    glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    this->viewMatrix = viewMatrix;
+    this->viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+  
 
-    glm::mat4 projectionMatrix = glm::ortho(
+    this->projectionMatrix = glm::ortho(
          this->orthoData.left,
          this->orthoData.right,
          this->orthoData.bottom,
@@ -21,12 +21,12 @@ void Orthographic::Draw(){
          this->orthoData.zfar
      );
 
-    this->projectionMatrix = projectionMatrix;
+   
     
     auto modelShader = ShaderManager::getModelShader();
 
     unsigned int projectionLoc = glGetUniformLocation(*modelShader, "projection");
-    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(this->projectionMatrix));
 
     unsigned int viewLoc = glGetUniformLocation(*modelShader, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));

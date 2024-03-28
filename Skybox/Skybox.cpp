@@ -1,8 +1,13 @@
 #include "Skybox.hpp"
+#include "../Utilities.h"
+Skybox::Skybox(TexInfo texture): texInfo(texture) {
+    Utils::Log("Yo");
+}
 
-Skybox::Skybox(TexInfo* texture) {
 
-	glGenTextures(1, &this->skyboxTexture);
+void Skybox::initialize() {
+   
+    glGenTextures(1, &this->skyboxTexture);
     glBindTexture(GL_TEXTURE_CUBE_MAP, this->skyboxTexture);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -11,10 +16,10 @@ Skybox::Skybox(TexInfo* texture) {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    std::vector<unsigned char*>* vecDatas = texture->getSkyboxDatas();
-    std::vector<int> vecWidths = texture->getVecWidth();
-    std::vector<int> vecHeights = texture->getVecHeight();
-    std::vector<int> vecColorChannels = texture->getVecColorChannels();
+    std::vector<unsigned char*>* vecDatas = texInfo.getSkyboxDatas();
+    std::vector<int> vecWidths = texInfo.getVecWidth();
+    std::vector<int> vecHeights = texInfo.getVecHeight();
+    std::vector<int> vecColorChannels = texInfo.getVecColorChannels();
 
     std::cout << vecDatas->size() << std::endl;
 
@@ -31,7 +36,6 @@ Skybox::Skybox(TexInfo* texture) {
     stbi_set_flip_vertically_on_load(true);
 
     this->initializeBuffers();
-
 }
 
 void Skybox::initializeBuffers() {
