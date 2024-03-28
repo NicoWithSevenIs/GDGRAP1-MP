@@ -65,7 +65,7 @@ void Workspace::start() {
 	models.push_back(new Model3D("3D/geo.obj", new TexInfo("3D/bake.png")));
 	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.005f, 0.005f, 0.005f));
 	/*
-		"Anemo Slime" (https://skfb.ly/oR8Kx)
+		"Anemo Slime" (https://skfb.ly/oR8Kx)	
 		by LinjieFan is licensed under Creative Commons Attribution-NonCommercial 
 		(http://creativecommons.org/licenses/by-nc/4.0/).
 	*/
@@ -78,8 +78,12 @@ void Workspace::start() {
 	models[1]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
 
 	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png")));
-	models[2]->getTransform().setVector(TransformType::Translation, glm::vec3(9.f, -15.f, 0.f));
-	models[2]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
+	models[2]->getTransform().setVector(TransformType::Translation, glm::vec3(9.f, -65.f, 0.f));
+	models[2]->getTransform().setVector(TransformType::Scale, glm::vec3(2.15f, 2.15f, 2.15f));
+
+	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png")));
+	models[3]->getTransform().setVector(TransformType::Translation, glm::vec3(9.f, 75.f, 0.f));
+	models[3]->getTransform().setVector(TransformType::Scale, glm::vec3(5.15f, 5.15f, 5.15f));
 }
 
 
@@ -150,7 +154,7 @@ void Workspace::render() {
 
 	*/
 
-	this->pointLight.setPosition(models[1]->getTransform().getTransformedPosition());
+	//this->pointLight.setPosition(models[1]->getTransform().getTransformedPosition());
 
 	models[1]->Draw();
 	this->setUnlit(true);
@@ -159,6 +163,9 @@ void Workspace::render() {
 	this->setUnlit(true);
 
 	models[2]->Draw();
+	this->setUnlit(true);
+
+	models[3]->Draw();
 	this->setUnlit(true);
 	
 }

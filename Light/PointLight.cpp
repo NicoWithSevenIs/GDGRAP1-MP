@@ -1,6 +1,7 @@
 #include "PointLight.hpp"
 
 PointLight::PointLight() : Light() {
+	this->lightPosition = glm::vec3(0.f, 80.f, 0.f);
 	this->lightColor = glm::vec3(1.f, 1.f, 1.f);
 	this->constant = 1.0f;
 	this->linear = 0.027f;
