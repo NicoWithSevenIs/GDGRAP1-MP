@@ -1,8 +1,9 @@
 #include "DirectionLight.hpp"
 
 DirectionLight::DirectionLight() {
-	this->lightColor = glm::vec3(0.75f, 0.75f, 0.75f);
-	this->lightDirection = glm::vec3(4.f, -5.f, 0.f);
+	//this->lightColor = glm::vec3(0.75f, 0.75f, 0.75f);
+	this->lightColor = glm::vec3(1.f, 0.f, 1.f);
+	this->lightDirection = glm::vec3(0.f, -100.f, 0.f);
 }
 
 void DirectionLight::Draw() {
