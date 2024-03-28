@@ -1,7 +1,7 @@
 #include "PointLight.hpp"
 
 PointLight::PointLight() : Light() {
-	this->lightPosition = glm::vec3(0.f, 50.f, 0.f);
+	this->lightPosition = glm::vec3(30.f, -40.f, 0.f);
 	this->lightColor = glm::vec3(1.f, 1.f, 1.f);
 	this->constant = 1.0f;
 	this->linear = 0.027f;
@@ -69,4 +69,11 @@ float PointLight::getLinear() {
 
 float PointLight::getQuadratic() {
 	return this->quadratic;
+}
+
+void PointLight::setPointLightFrontOfPlayer(glm::vec3 position) {
+	/*float x = position.x;
+	float xOffset = position.x + 50.f;
+	position.x = xOffset;*/
+	this->lightPosition = position;
 }

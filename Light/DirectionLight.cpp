@@ -3,8 +3,8 @@
 DirectionLight::DirectionLight() {
 	//this->lightColor = glm::vec3(0.75f, 0.75f, 0.75f);
 	this->lightColor = glm::vec3(1.f, 1.f, 1.f);
-	this->lightDirection = glm::vec3(0.f, 80.f, 0.f);
-	this->ambientStr = 0.0000025f;
+	this->lightDirection = glm::vec3(0.f, -50.f, 0.f);
+	this->ambientStr = 0.0025f;
 }
 
 void DirectionLight::Draw() {

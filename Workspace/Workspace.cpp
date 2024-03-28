@@ -75,8 +75,10 @@ void Workspace::start() {
 	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
 	
 	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png")));
-	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(19.f, 20.f, 0.f));
+	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(90.f, -40.f, 5.f));
 	models[1]->getTransform().setVector(TransformType::Scale, glm::vec3(0.5f, 0.5f, 0.5f));
+
+
 	
 }
 
@@ -148,12 +150,13 @@ void Workspace::render() {
 
 	*/
 
-	//this->pointLight.setPosition(models[1]->getTransform().getTransformedPosition());
-
+	//this->pointLight.setPosition(models[0]->getTransform().getTransformedPosition());
+	//this->pointLight.setPointLightFrontOfPlayer(this->models[0]->getTransform().getTransformedPosition());
+	
+	
 	this->setUnlit(true);
 	models[0]->Draw();
 	
-
 	models[1]->Draw();
 
 

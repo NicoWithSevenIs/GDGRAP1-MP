@@ -19,4 +19,5 @@ class PointLight : public Light {
 		float getConstant();
 		float getLinear();
 		float getQuadratic();
+		void setPointLightFrontOfPlayer(glm::vec3 position);
 };
