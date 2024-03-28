@@ -31,8 +31,9 @@ class Workspace {
 		GLFWwindow* window;
 
 		std::vector<Model3D*> models;
-		std::vector<Skybox*> skybox;
+		//std::vector<Skybox*> skybox;
 
+		Skybox* skybox;
 		PointLight pointLight;
 		DirectionLight directionLight;
 
