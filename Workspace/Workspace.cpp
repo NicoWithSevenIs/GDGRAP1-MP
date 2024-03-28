@@ -60,36 +60,23 @@ void Workspace::start() {
 
 	this->skybox = new Skybox(new TexInfo(6));
 
-	//skybox.push_back(new Skybox(new TexInfo(6)));
-	//models.push_back(new Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png") ));
-	models.push_back(new Model3D("3D/geo.obj", new TexInfo("3D/bake.png")));
-	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.005f, 0.005f, 0.005f));
+	
 	/*
 		"Anemo Slime" (https://skfb.ly/oR8Kx)	
 		by LinjieFan is licensed under Creative Commons Attribution-NonCommercial 
 		(http://creativecommons.org/licenses/by-nc/4.0/).
 	*/
 
-	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
-	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	models[1]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
-	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
 	//see Transform
-	models[1]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
-
-	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png")));
-	models[2]->getTransform().setVector(TransformType::Translation, glm::vec3(9.f, -65.f, 0.f));
-	models[2]->getTransform().setVector(TransformType::Scale, glm::vec3(2.15f, 2.15f, 2.15f));
-
-	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png")));
-	models[3]->getTransform().setVector(TransformType::Translation, glm::vec3(9.f, 75.f, 0.f));
-	models[3]->getTransform().setVector(TransformType::Scale, glm::vec3(5.15f, 5.15f, 5.15f));
-
+	//[1]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
+	
 	models.push_back(new Model3D("3D/SubLow0Smooth.obj", new TexInfo("3D/fish.png")));
-	models[4]->getTransform().setVector(TransformType::Translation, glm::vec3(10.f, 2.f, 0.f));
-	models[4]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
-	models[4]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-
+	models[0]->getTransform().setVector(TransformType::Translation, glm::vec3(30.f, -40.f, 0.f));
+	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
+	
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png")));
+	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(19.f, 20.f, 0.f));
+	models[1]->getTransform().setVector(TransformType::Scale, glm::vec3(0.5f, 0.5f, 0.5f));
 	
 }
 
@@ -163,20 +150,12 @@ void Workspace::render() {
 
 	//this->pointLight.setPosition(models[1]->getTransform().getTransformedPosition());
 
-	models[1]->Draw();
 	this->setUnlit(true);
-
 	models[0]->Draw();
-	this->setUnlit(true);
+	
 
-	models[2]->Draw();
-	this->setUnlit(true);
+	models[1]->Draw();
 
-	models[3]->Draw();
-	this->setUnlit(true);
-
-	models[4]->Draw();
-	this->setUnlit(true);
 
 }
 
