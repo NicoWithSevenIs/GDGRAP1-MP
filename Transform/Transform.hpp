@@ -23,6 +23,9 @@ class Transform {
 		TransformType second;
 		TransformType third;
 
+
+		glm::vec3 previous;
+
 	public:
 		Transform();
 

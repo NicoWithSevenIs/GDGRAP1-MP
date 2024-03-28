@@ -15,12 +15,7 @@ void InputManager::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
     //handle first mouse enter in each respective update
 
 
-    if (i->firstMouseEnter)
-    {
-        i->previousHover = glm::vec2(xpos, ypos);
-        i->firstMouseEnter = false;
-        return;
-    }
+ 
 
     if(i->bSwitch)
         i->updateCurrentLookAt(xpos, ypos);
@@ -32,6 +27,12 @@ void InputManager::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 void InputManager::updateCurrentLookAt(float x, float y) {
 
     InputManager* i = getInstance();
+
+    if (i->firstMouseEnter) {
+       i->previous = glm::vec2(x,y);
+       i->firstMouseEnter = false;
+       return;
+    }
 
     glm::vec2 offset = glm::vec2(x - i->previous.x, i->previous.y - y);
     i->previous = glm::vec2(x,y);
@@ -63,6 +64,14 @@ glm::vec3 InputManager::getCurrentLookAt(){return this->currentLookAt;}
 void InputManager::updateHoverDelta(float x, float y) {
     
     InputManager* i = getInstance();
+
+    if (i->firstMouseEnter)
+    {
+        i->previousHover = glm::vec2(x, y);
+        i->firstMouseEnter = false;
+        return;
+    }
+
     i->currentHover = glm::vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2) - glm::vec2(x, y);
     
 }
@@ -88,7 +97,7 @@ InputManager* InputManager::getInstance() {
 	return instance;
 }
 
-std::unordered_map<int, PressData>& InputManager::getPressed() {
+std::unordered_map<int, KeyData>& InputManager::getPressed() {
 	return getInstance()->pressed;
 }
 #pragma endregion

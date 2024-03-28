@@ -19,6 +19,12 @@ class Player {
 		ThirdPerson tCamera;
 		Orthographic oCamera;
 
+		glm::vec3 previousPos;
+
+		float xInput;
+		float yInput;
+		float zInput;
+
 	public:
 		Player(glm::vec3 position = glm::vec3(0,0,0));
 
@@ -26,7 +32,20 @@ class Player {
 		void addPlayerControls();
 		void addCameraControls();
 
+	public:
 		void Draw();
 
+	public:
+		void moveXZ(float speed);
+		void moveY(float speed);
+		
+
+
+
 		Camera* getCurrentCamera();
+
+	public: 
+		Transform& getPlayerTransform() {
+			return this->playerModel.getTransform();
+		}
 };

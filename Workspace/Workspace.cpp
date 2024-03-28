@@ -64,13 +64,14 @@ void Workspace::start() {
 		(http://creativecommons.org/licenses/by-nc/4.0/).
 	*/
 
+	/*
 	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
 	models[0]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
 	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
 
 	//see Transform
 	models[0]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
-
+	*/
 }
 
 
@@ -79,6 +80,7 @@ void Workspace::start() {
 void Workspace::subscribe() {
 
 	player->addCameraControls();
+	player->addPlayerControls();
 }
 
 
@@ -100,13 +102,14 @@ void Workspace::render() {
 
 	*/
 
-	this->pointLight.setPosition(models[0]->getTransform().getTransformedPosition());
+	//this->pointLight.setPosition(models[0]->getTransform().getTransformedPosition());
+	//this->setUnlit(false);
+	//models[0]->Draw();
 
-	models[0]->Draw();
+
 	this->setUnlit(true);
-
 	player->Draw();
-	this->setUnlit(false);
+
 	
 }
 
@@ -123,11 +126,14 @@ void Workspace::setUnlit(bool value) {
 
 
 void Workspace::update() {
-	std::unordered_map<int, PressData>& i = InputManager::getPressed();
+
+	this->player->moveXZ(0.01f);
+	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 	for (auto j : i) {
-		if(j.second.action != GLFW_RELEASE)
-			j.second.Invoke();
+		j.second.Invoke();
 	}
+
+
 }
 
 

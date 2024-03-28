@@ -5,6 +5,10 @@
 class Utils {
 
 	public:
+
+
+
+
 		static void printVec3(glm::vec3 vec) {
 			std::cout << "{ "  << vec.x << "," << vec.y << "," <<  vec.z  <<   "}" <<std::endl;
 		
