@@ -84,6 +84,13 @@ void Workspace::start() {
 	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png")));
 	models[3]->getTransform().setVector(TransformType::Translation, glm::vec3(9.f, 75.f, 0.f));
 	models[3]->getTransform().setVector(TransformType::Scale, glm::vec3(5.15f, 5.15f, 5.15f));
+
+	models.push_back(new Model3D("3D/SubLow0Smooth.obj", new TexInfo("3D/fish.png")));
+	models[4]->getTransform().setVector(TransformType::Translation, glm::vec3(10.f, 2.f, 0.f));
+	models[4]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
+	models[4]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
+
+	
 }
 
 
@@ -167,7 +174,10 @@ void Workspace::render() {
 
 	models[3]->Draw();
 	this->setUnlit(true);
-	
+
+	models[4]->Draw();
+	this->setUnlit(true);
+
 }
 
 //helper function for setting models unlit
