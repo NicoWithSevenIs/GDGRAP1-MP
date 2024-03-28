@@ -2,10 +2,11 @@
 
 PointLight::PointLight() : Light() {
 	this->lightPosition = glm::vec3(30.f, -40.f, 0.f);
-	this->lightColor = glm::vec3(1.f, 1.f, 1.f);
+	this->lightColor = glm::vec3(1.f, 0.f, 1.f);
 	this->constant = 1.0f;
 	this->linear = 0.027f;
 	this->quadratic = 0.0028f;
+	this->brightness = 2.3f;
 }
 
 
@@ -72,8 +73,8 @@ float PointLight::getQuadratic() {
 }
 
 void PointLight::setPointLightFrontOfPlayer(glm::vec3 position) {
-	/*float x = position.x;
-	float xOffset = position.x + 50.f;
-	position.x = xOffset;*/
+	float z = position.z;
+	float zOffset = z + 15.f;
+	position.z = zOffset;
 	this->lightPosition = position;
 }

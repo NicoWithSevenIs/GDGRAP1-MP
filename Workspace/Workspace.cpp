@@ -75,8 +75,11 @@ void Workspace::start() {
 	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
 	
 	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png")));
-	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(90.f, -40.f, 5.f));
+	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(30.f, -40.f, 35.f));
 	models[1]->getTransform().setVector(TransformType::Scale, glm::vec3(0.5f, 0.5f, 0.5f));
+
+	/*models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png")));
+	models[2]->getTransform().setVector(TransformType::Scale, glm::vec3(3.5f, 3.5f, 3.5f));*/
 
 
 	
@@ -151,14 +154,17 @@ void Workspace::render() {
 	*/
 
 	//this->pointLight.setPosition(models[0]->getTransform().getTransformedPosition());
-	//this->pointLight.setPointLightFrontOfPlayer(this->models[0]->getTransform().getTransformedPosition());
-	
-	
-	this->setUnlit(true);
-	models[0]->Draw();
-	
-	models[1]->Draw();
+	this->pointLight.setPointLightFrontOfPlayer(this->models[0]->getTransform().getTransformedPosition());
+	//this->models[2]->getTransform().setVector(TransformType::Translation, this->pointLight.getLightPosition());
 
+	models[0]->Draw();
+	this->setUnlit(true);
+
+	models[1]->Draw();
+	this->setUnlit(true);
+
+	/*models[2]->Draw();
+	this->setUnlit(true);*/
 
 }
 
