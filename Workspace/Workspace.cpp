@@ -58,8 +58,9 @@ void Workspace::start() {
 		Modified in blender to remove her weapons and scale her down (she was really big)
 	*/
 	skybox.push_back(new Skybox(new TexInfo(6)));
-	models.push_back(new Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png") ));
-
+	//models.push_back(new Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png") ));
+	models.push_back(new Model3D("3D/geo.obj", new TexInfo("3D/bake.png")));
+	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.005f, 0.005f, 0.005f));
 	/*
 		"Anemo Slime" (https://skfb.ly/oR8Kx)
 		by LinjieFan is licensed under Creative Commons Attribution-NonCommercial 
@@ -69,7 +70,7 @@ void Workspace::start() {
 	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
 	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
 	models[1]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
-
+	models[1]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
 	//see Transform
 	models[1]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
 
@@ -149,7 +150,7 @@ void Workspace::render() {
 	this->setUnlit(true);
 
 	models[0]->Draw();
-	this->setUnlit(false);
+	this->setUnlit(true);
 	
 }
 
