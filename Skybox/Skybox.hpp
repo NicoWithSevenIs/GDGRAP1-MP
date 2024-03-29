@@ -20,11 +20,12 @@ class Skybox {
 		unsigned int VAO;
 		unsigned int VBO;
 		unsigned int EBO;
+		TexInfo texInfo;
+	public:
+		Skybox(TexInfo texture);
 
 	public:
-		Skybox(TexInfo* texture);
-
-	public:
+		void initialize();
 		void initializeBuffers();
 		void Draw(glm::mat4 viewMatrix, glm::mat4 projectionMatrix);
 	

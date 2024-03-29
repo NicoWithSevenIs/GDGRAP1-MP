@@ -11,11 +11,6 @@
 #include "../Model3D/Model3D.hpp"
 #include "../InputManager/InputManager.hpp"
 
-#include "../Camera/Camera.hpp"
-#include "../Camera/Perspective/FirstPerson/FirstPerson.hpp"
-#include "../Camera/Perspective/ThirdPerson/ThirdPerson.hpp"
-#include "../Camera/Orthographic/OrthographicCamera.hpp"
-
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
@@ -24,14 +19,18 @@
 
 #include "../Skybox/Skybox.hpp"
 
+#include "../Player/Player.hpp"
+
 class Workspace {
 		
 	private:
 		
 		GLFWwindow* window;
 
+
+		Player* player;
 		std::vector<Model3D*> models;
-		//std::vector<Skybox*> skybox;
+		std::vector<Skybox*> skybox;
 
 		Skybox* skybox;
 		PointLight pointLight;
@@ -39,10 +38,7 @@ class Workspace {
 
 		bool isMovingLightSource;
 	
-		Camera* currentCamera;
-		FirstPerson pCamera;
-		ThirdPerson tCamera;
-		Orthographic oCamera;
+		
 
 
 		

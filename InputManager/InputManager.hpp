@@ -13,27 +13,44 @@
 
 #include "../../Utilities.h"
 
-struct PressData {
+struct Action {
+
+	private:
+		std::vector<std::function<void()>> actionList;
+
+
+	public:
+		void Invoke() {
+			for (auto f : actionList)
+				f();
+		}
+
+		Action& operator += (const std::function<void()>& f) {
+			actionList.push_back(f);
+			return *this;
+		}
+
+		void Clear() {
+			actionList.clear();
+		}
+};
+
+struct KeyData {
 	 
 	int action = 0;
-	std::vector<std::function<void()>> onPress;
-
+	
+	Action onPress;
+	Action onRelease;
 
 	void Invoke() {
-		if(this->action == GLFW_RELEASE)
-			return;
-
-		for (auto f : onPress)
-			f(); 
-	}
-
-	PressData& operator += (const std::function<void()>& f) {
-		onPress.push_back(f);
-		return *this;
-	}
-
-	void Clear() {
-		onPress.clear();
+		switch (action) {
+			case GLFW_PRESS:
+			case GLFW_REPEAT:
+				onPress.Invoke();
+			break;
+			case GLFW_RELEASE: 
+				onRelease.Invoke();
+		}
 	}
 
 };
@@ -42,7 +59,7 @@ class InputManager {
 
 	//Keyboard
 	private:
-		std::unordered_map<int, PressData> pressed;
+		std::unordered_map<int, KeyData> pressed;
 
 	/*Mouse*/
 
@@ -76,6 +93,7 @@ class InputManager {
 
 		void setSwitch(bool val) {
 			this->bSwitch = val;
+			this->firstMouseEnter = true;
 		}
 		
 
@@ -96,7 +114,7 @@ class InputManager {
 		static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 
-		static std::unordered_map<int, PressData>& getPressed();
+		static std::unordered_map<int, KeyData>& getPressed();
 	#pragma endregion
 		
 };

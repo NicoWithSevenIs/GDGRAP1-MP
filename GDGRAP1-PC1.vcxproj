@@ -157,6 +157,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model3D\Model3D.cpp" />
     <ClCompile Include="ObjData\ObjData.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="Skybox\Skybox.cpp" />
     <ClCompile Include="TexInfo\TexInfo.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Light\PointLight.hpp" />
     <ClInclude Include="Model3D\Model3D.hpp" />
     <ClInclude Include="ObjData\ObjData.hpp" />
+    <ClInclude Include="Player\Player.hpp" />
     <ClInclude Include="ShaderManager\ShaderManager.hpp" />
     <ClInclude Include="Skybox\Skybox.hpp" />
     <ClInclude Include="stb_image.h" />

@@ -2,8 +2,10 @@
 
 #include "ThirdPerson.hpp"
 
-ThirdPerson::ThirdPerson(glm::vec3 cameraPos, glm::vec3 cameraFront) :
-    Perspective(cameraPos, cameraFront) {}
+ThirdPerson::ThirdPerson(glm::vec3 cameraPos, glm::vec3 cameraFront, Transform* subject) :
+    Perspective(cameraPos, cameraFront) {
+    this->cameraSubject = subject;    
+}
 
 
 
@@ -16,7 +18,7 @@ void ThirdPerson::Draw() {
 
     glm::vec2 delta = InputManager::getInstance()->getHoverDelta();
 
-    glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);  
 
     delta *= 0.2;
     viewMatrix = glm::rotate(viewMatrix, glm::radians(-delta.y), glm::vec3(1,0,0));
@@ -25,6 +27,7 @@ void ThirdPerson::Draw() {
 
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(this->fieldOfView), 1280.f / 720.f, 0.1f, 100.f);
     this->projectionMatrix = projectionMatrix;
+
 
     auto modelShader = ShaderManager::getModelShader();
     unsigned int projectionLoc = glGetUniformLocation(*modelShader, "projection");

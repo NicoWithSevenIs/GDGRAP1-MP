@@ -1,94 +1,70 @@
 #include "Transform.hpp"
-#include <iostream>
 
-/*.Cpp holds all the matrix transformation, along with storing/updating theta values*/
 Transform::Transform() {
-    this->Transforms[TransformType::Translation] = glm::vec3(0, 0, 0);
-    this->Transforms[TransformType::Scale] = glm::vec3(1, 1, 1);
-    this->Transforms[TransformType::RotationAxis] = glm::vec3(0, 1, 0);
-    this->theta = 0;
-
-    resetTransformationOrder();
+	translation = {0,0,0};
+	scale = {1,1,1};
+	rotation = glm::mat4(1.f);
 }
 
-float Transform::getTheta() { return this->theta; }
-void Transform::setTheta(float theta) {
-    this->theta = theta;
+void Transform::translate(glm::vec3 t) {
+	translation += t;
 }
 
-void Transform::setVector(TransformType type, glm::vec3 vec) {
-    this->Transforms[type] = vec;
-}
 
-//Calculates Transform Matrix based on stored vector values
-
-//Calls each delegate based on the order specified
-//default is RSTI
-//use overrideTransformationOrder to change this
 glm::mat4 Transform::getTransformMatrix() {
+	
+	glm::mat4 transformMatrix = glm::mat4(1.f);
 
-    glm::mat4 transformMatrix = glm::mat4(1.0);
+	transformMatrix = glm::translate(transformMatrix, translation);
+	transformMatrix = glm::scale(transformMatrix, scale);
+	transformMatrix = transformMatrix * rotation;
 
-    std::unordered_map<TransformType, std::function<void(glm::mat4&)>> actions = {
-        {TransformType::Translation, 
-            [this](glm::mat4& transformMatrix) {  
-                transformMatrix = glm::translate(transformMatrix, this->Transforms[TransformType::Translation]);  
-            }
-        },
-        {TransformType::Scale,
-            [this](glm::mat4& transformMatrix) {  
-                transformMatrix = glm::scale(transformMatrix, this->Transforms[TransformType::Scale]);  
-            }
-        },
-        {TransformType::RotationAxis, 
-            [this](glm::mat4& transformMatrix) { 
-                transformMatrix = glm::rotate(transformMatrix, glm::radians(this->theta), glm::normalize(this->Transforms[TransformType::RotationAxis]));
-            }
-        }
-    };
-
-
-    /*  
-        Thinking of just making a vector of transformation instructions in the mp HAHA
-        Calling it would go like this
-
-        for(var t in transformSequence)
-            actions[t](transformMatrix)
-    */
-
-    actions[this->first](transformMatrix);
-    actions[this->second](transformMatrix);
-    actions[this->third](transformMatrix);
-
-    return transformMatrix;
+	return transformMatrix;
 }
 
-glm::vec3 Transform::getVector(TransformType type) {
-    return this->Transforms[type];
-}
-
-void Transform::incrementTheta(float amount) {
-    this->theta += amount;
+void Transform::setTranslation(glm::vec3 t) {
+	this->translation = t;
 }
 
 
-//make sure each transformation is unique
-void Transform::overrideTransformationOrder(TransformType first, TransformType second, TransformType third) {
-    if(first == second || second == third || first == third)
-        return;
-
-    this->first = first;
-    this->second = second;
-    this->third = third;
+void Transform::setRotation(glm::vec3 axis, float theta) {
+	glm::mat4 rotation = glm::mat4(1.0);
+	this->rotation = glm::rotate(rotation, theta, axis);
 }
 
-void Transform::resetTransformationOrder() {
-    this->first = TransformType::Translation;
-    this->second = TransformType::Scale;
-    this->third = TransformType::RotationAxis;
+glm::vec3 Transform::getPosition() {
+	glm::mat4 transformMatrix = this->getTransformMatrix();
+	return transformMatrix[3];
 }
 
-glm::vec3 Transform::getTransformedPosition() {
-    glm::mat4 transformedMatrix = this->getTransformMatrix();
-    return transformedMatrix[3];
+#include "../Utilities.h"
+
+/*
+Method 2
+Reference: https://mmmovania.blogspot.com/2014/03/making-opengl-object-look-at-another.html?m=1
+*/
+void Transform::lookAt(glm::vec3 current, glm::vec3 target) {
+	
+	glm::vec3 delta = current - target;
+	glm::vec3 up;
+	glm::vec3 direction(glm::normalize(delta));
+
+	if (abs(direction.x) < 0.00001 && abs(direction.z) < 0.00001) {
+		if (direction.y > 0)
+			up = glm::vec3(0.0, 0.0, -1.0); //if direction points in +y
+		else
+			up = glm::vec3(0.0, 0.0, 1.0); //if direction points in -y 
+	}
+	else {
+		up = glm::vec3(0.0, 1.0, 0.0); //y-axis is the general up
+	}
+	up = glm::normalize(up);
+	glm::vec3 right = glm::normalize(glm::cross(up, direction));
+	up = glm::normalize(glm::cross(direction, right));
+
+	this->rotation =  glm::mat4(right.x, right.y, right.z, 0.0f,
+		up.x, up.y, up.z, 0.0f,
+		direction.x, direction.y, direction.z, 0.0f,
+		0, 0, 0, 1.0f);
+
 }
