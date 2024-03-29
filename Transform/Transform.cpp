@@ -32,16 +32,18 @@ void Transform::setRotation(glm::vec3 axis, float theta) {
 	this->rotation = glm::rotate(rotation, glm::radians(theta), axis);
 }
 
+void Transform::setScale(glm::vec3 s) {
+	this->scale = s;
+}
+
 glm::vec3 Transform::getPosition() {
 	glm::mat4 transformMatrix = this->getTransformMatrix();
 	return transformMatrix[3];
 }
 
-#include "../Utilities.h"
-
 /*
 Method 2
-Reference: https://mmmovania.blogspot.com/2014/03/making-opengl-object-look-at-another.html?m=1
+Source: https://mmmovania.blogspot.com/2014/03/making-opengl-object-look-at-another.html?m=1
 */
 void Transform::lookAt(glm::vec3 current, glm::vec3 target) {
 	
@@ -70,7 +72,7 @@ void Transform::lookAt(glm::vec3 current, glm::vec3 target) {
 }
 
 /*
-Source:
+Reference:
 
 https://community.khronos.org/t/how-implement-euler-angle-in-opengl/60396
 */
@@ -88,7 +90,7 @@ void Transform::setRotationEuler(float pitch, float yaw, float roll) {
 }
 
 /*
-Source: https://stackoverflow.com/questions/15022630/how-to-calculate-the-angle-from-rotation-matrix
+Reference: https://stackoverflow.com/questions/15022630/how-to-calculate-the-angle-from-rotation-matrix
 */
 float Transform::getYRotation() {
 	

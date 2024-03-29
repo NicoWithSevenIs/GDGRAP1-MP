@@ -17,9 +17,9 @@ void InputManager::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 
  
 
-   //if(i->bSwitch)
+   if(i->bSwitch)
         i->updateCurrentLookAt(xpos, ypos);
-   // else
+   else
         i->updateHoverDelta(xpos, ypos);
 }
 

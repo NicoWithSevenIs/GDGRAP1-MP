@@ -9,7 +9,7 @@ ThirdPerson::ThirdPerson(glm::vec3 cameraPos, glm::vec3 cameraFront, Transform* 
     
     this->cameraSubject = subject; 
     
-    distanceFromSubject = 2;
+    distanceFromSubject = 1.5f;
     angleAroundSubject = 90;
     pitchTilt = 20;
 }

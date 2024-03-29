@@ -3,15 +3,18 @@
 #include "Player.hpp"
 #include <string>
 Player::Player(glm::vec3 position):
-	playerModel(Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png"))),
+	playerModel(Model3D("3D/sub.obj", new TexInfo("3D/fish.png"))),
 	pCamera(glm::vec3(0.0f, -5.0f, 0.0f), glm::vec3(0.f, -5, -1.0f)),
 	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
 {
-	this->currentCamera = &tCamera;
+	this->currentCamera = &pCamera;
 	this->previousPos = position;
 
 	getPlayerTransform().translate({0, -5, 0});
+
+	getPlayerTransform().setScale(glm::vec3(0.001027f, 0.001027f, 0.001027f));
+	
 
 	this->xInput = 0.f;
 	this->yInput = 0.f;
