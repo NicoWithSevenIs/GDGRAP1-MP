@@ -129,31 +129,38 @@ float theta = 0.f;
 void Player::moveXZ(float speed) {
 	
 	if (currentCamera == &pCamera) {
-		getPlayerTransform().setTranslation(pCamera.getCameraPos());
-		getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
+		glm::vec3 pPos = getPlayerTransform().getPosition();
+		glm::vec3 cPos = pCamera.getCameraPos() + pCamera.getCameraFront();
+		glm::vec3 cF = {pCamera.getCameraFront().x, pPos.y,  pCamera.getCameraFront().z};
+
+		glm::vec3 clampedCpos = { cPos.x, pPos.y, cPos.z };
+		getPlayerTransform().setTranslation(clampedCpos + cF);
+		getPlayerTransform().lookAt(clampedCpos, clampedCpos - cF);
 	}
 	/*
-	glm::vec3 direction = glm::vec3(zInput, 0, xInput);
+		glm::vec3 direction = glm::vec3(zInput, 0, xInput);
 
-	if(direction == glm::vec3(0,0,0))
-		return;
+		if(direction == glm::vec3(0,0,0))
+			return;
 	
-	direction = glm::normalize(direction) * speed;
+		direction = glm::normalize(direction) * speed;
 
-	glm::vec3 previous = getPlayerTransform().getPosition();
-	getPlayerTransform().translate(direction);
+		glm::vec3 previous = getPlayerTransform().getPosition();
+		getPlayerTransform().translate(direction);
 
-	Utils::printVec3(getPlayerTransform().getPosition());
-	glm::vec3 current = getPlayerTransform().getPosition();
+		Utils::printVec3(getPlayerTransform().getPosition());
+		glm::vec3 current = getPlayerTransform().getPosition();
 	*/
 
-	
 	/*my alg
-		glm::vec3 lookDir = glm::normalize(current-previous);
-		float angle = atan2(lookDir.x, lookDir.z) * 180 / 3.14;
-		getPlayerTransform().setRotation({0,1,0}, angle);
-	*/
 
+		glm::vec3 current = pCamera.getCameraPos();
+		glm::vec3 target = pCamera.getCameraPos() - pCamera.getCameraFront();
+		glm::vec3 lookDir = glm::normalize(current - target);
+		float angle = atan2(lookDir.x, lookDir.z) * 180 / 3.14;
+		getPlayerTransform().setRotation({ 0,1,0 }, angle);
+	*/
+	
 	//alg i grabbed off the net
 
 
