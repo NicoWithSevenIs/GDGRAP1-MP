@@ -20,6 +20,10 @@ class TexInfo {
 		int img_height;
 		int colorChannels;
 
+		int img_width2;
+		int img_height2;
+		int colorChannels2;
+
 	private:
 		std::vector<int> vecWidth;
 		std::vector<int> vecHeight;
@@ -27,13 +31,14 @@ class TexInfo {
 	private:
 		unsigned char* tex_bytes;
 		std::vector<unsigned char*> datas;
+		unsigned char* normal_bytes;
 
 		GLuint texture;
 		
 	public:
 		TexInfo(std::string filename);
-
 		TexInfo(int size);
+		TexInfo(std::string filename1, std::string filename2);
 		~TexInfo();
 
 	public:
@@ -47,5 +52,6 @@ class TexInfo {
 		std::vector<int> getVecWidth();
 		std::vector<int> getVecHeight();
 		std::vector<int> getVecColorChannels();
+		unsigned char* getNormalBytes();
 
 };

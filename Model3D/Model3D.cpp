@@ -2,8 +2,21 @@
 
 #include "Model3D.hpp"
 /*Aids in handling the 3D Model*/
-Model3D::Model3D(std::string modelFilename, TexInfo* texInfo){
+Model3D::Model3D(std::string modelFilename, TexInfo* texInfo, bool isNormalMapped){
 
+    
+    if (isNormalMapped) {
+
+    }
+    else {
+        this->generateTexture(texInfo);
+        this->modelInfo.LoadModel(modelFilename);
+        this->initializeBuffers();
+    }
+
+}
+
+void Model3D::generateTexture(TexInfo* texInfo) {
     this->texture = *texInfo->getTexture();
 
     glGenTextures(1, &texture);
@@ -16,7 +29,7 @@ Model3D::Model3D(std::string modelFilename, TexInfo* texInfo){
         glTexImage2D(GL_TEXTURE_2D,
             0,
             GL_RGB,
-            texInfo->getWidth(), 
+            texInfo->getWidth(),
             texInfo->getHeight(),
             0,
             GL_RGB,
@@ -39,9 +52,6 @@ Model3D::Model3D(std::string modelFilename, TexInfo* texInfo){
     }
 
     glGenerateMipmap(GL_TEXTURE_2D);
-
-    this->modelInfo.LoadModel(modelFilename);
-    this->initializeBuffers();
 }
 
 void Model3D::initializeBuffers() {

@@ -25,11 +25,14 @@ class Model3D {
 		GLuint texture;
 
 	public:
-		Model3D(std::string modelFilename, TexInfo* texInfo);
+		Model3D(std::string modelFilename, TexInfo* texInfo, bool isNormalMapped);
+		Model3D();
 
 		~Model3D();
 	
 	private:
+		void generateTexture(TexInfo* texInfo);
+		void generateTextureWithNormalMap(TexInfo* texInfo);
 		void initializeBuffers();
 
 	public:
