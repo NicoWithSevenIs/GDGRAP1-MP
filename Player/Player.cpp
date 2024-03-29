@@ -4,7 +4,7 @@
 #include <string>
 Player::Player(glm::vec3 position):
 	playerModel(Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png"))),
-	pCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
+	pCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.f, 0.f, -1.0f)),
 	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
 {
@@ -128,7 +128,10 @@ void Player::addCameraControls() {
 float theta = 0.f;
 void Player::moveXZ(float speed) {
 	
-	getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
+	if (currentCamera == &pCamera) {
+		getPlayerTransform().setTranslation(pCamera.getCameraPos());
+		getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
+	}
 	/*
 	glm::vec3 direction = glm::vec3(zInput, 0, xInput);
 
