@@ -4,12 +4,14 @@
 #include <string>
 Player::Player(glm::vec3 position):
 	playerModel(Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png"))),
-	pCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.f, 0.f, -1.0f)),
-	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f), &playerModel.getTransform()),
+	pCamera(glm::vec3(0.0f, -5.0f, 0.0f), glm::vec3(0.f, -5, -1.0f)),
+	tCamera(glm::vec3(0.0f, -5.0f, 2.0f), glm::vec3(0.f, -5, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
 {
 	this->currentCamera = &pCamera;
 	this->previousPos = position;
+
+	getPlayerTransform().translate({0, -5, 0});
 
 	this->xInput = 0.f;
 	this->yInput = 0.f;
@@ -93,6 +95,7 @@ void Player::addCameraControls() {
 	i[GLFW_KEY_2].onPress += [this]() {
 		this->currentCamera = &this->oCamera;
 		oCamera.setCameraPos(getPlayerTransform().getPosition());
+		
 	};
 
 	i[GLFW_KEY_3].onPress += [this]() {
@@ -103,21 +106,31 @@ void Player::addCameraControls() {
 	
 	
 	i[GLFW_KEY_UP].onPress += [this, cameraSpeed]() {
-	pCamera.setCameraPos(pCamera.getCameraPos() + cameraSpeed * pCamera.getCameraFront());
+		if (currentCamera != &oCamera)
+			return;
+		auto cPos = oCamera.getCameraPos();
+		oCamera.setCameraPos({cPos.x, cPos.y, cPos.z+cameraSpeed});
 	};
 
 	i[GLFW_KEY_LEFT].onPress += [this, cameraSpeed]() {
-		pCamera.setCameraPos(pCamera.getCameraPos() - cameraSpeed * (
-			glm::normalize(glm::cross(pCamera.getCameraFront(), glm::vec3(0, 1, 0)))));
+		if (currentCamera != &oCamera)
+			return;
+		auto cPos = oCamera.getCameraPos();
+		oCamera.setCameraPos({ cPos.x + cameraSpeed, cPos.y, cPos.z });
 	};
 
 	i[GLFW_KEY_DOWN].onPress += [this, cameraSpeed]() {
-		pCamera.setCameraPos(pCamera.getCameraPos() - cameraSpeed * pCamera.getCameraFront());
+		if (currentCamera != &oCamera)
+			return;
+		auto cPos = oCamera.getCameraPos();
+		oCamera.setCameraPos({ cPos.x, cPos.y, cPos.z - cameraSpeed });
 	};
 
 	i[GLFW_KEY_RIGHT].onPress += [this, cameraSpeed]() {
-		pCamera.setCameraPos(pCamera.getCameraPos() + cameraSpeed * (
-			glm::normalize(glm::cross(pCamera.getCameraFront(), glm::vec3(0, 1, 0)))));
+		if (currentCamera != &oCamera)
+			return;
+		auto cPos = oCamera.getCameraPos();
+		oCamera.setCameraPos({ cPos.x - cameraSpeed, cPos.y, cPos.z});
 	};
 
 
@@ -128,16 +141,13 @@ void Player::addCameraControls() {
 
 float theta = 0.f;
 void Player::moveXZ(float speed) {
-	
-	if (currentCamera == &pCamera) {
-		glm::vec3 pPos = getPlayerTransform().getPosition();
-		glm::vec3 cPos = pCamera.getCameraPos() + pCamera.getCameraFront();
-		glm::vec3 cF = {pCamera.getCameraFront().x, pPos.y,  pCamera.getCameraFront().z};
 
-		glm::vec3 clampedCpos = { cPos.x, pPos.y, cPos.z };
-		getPlayerTransform().setTranslation(clampedCpos + cF);
-		getPlayerTransform().lookAt(clampedCpos, clampedCpos - cF);
-		Utils::printVec3(clampedCpos);
+	if (currentCamera == &oCamera)
+		return;
+
+	if (currentCamera == &pCamera) {
+		getPlayerTransform().setTranslation(pCamera.getCameraPos());
+		getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
 	}
 	/*
 		glm::vec3 direction = glm::vec3(zInput, 0, xInput);
@@ -163,19 +173,29 @@ void Player::moveXZ(float speed) {
 		getPlayerTransform().setRotation({ 0,1,0 }, angle);
 	*/
 	
-	//alg i grabbed off the net
-
 
 }
 
 void Player::moveY(float speed) {
+
+	if(currentCamera == &oCamera)
+		return;
+
 	if(yInput == 0)
 		return;
 
 	if (getPlayerTransform().getPosition().y + yInput * speed >= 1)
 		return;
-	glm::vec3 movementVector = glm::vec3(0, yInput, 0) * 0.001f;
-	getPlayerTransform().translate(movementVector);
+
+	if (currentCamera == &pCamera) {
+		glm::vec3 cPos = pCamera.getCameraPos();
+		pCamera.setCameraPos({ cPos.x, cPos.y + yInput * speed, cPos.z});
+	}
+	else {
+		glm::vec3 movementVector = glm::vec3(0, yInput * speed, 0);
+		getPlayerTransform().translate(movementVector);
+	}
+	
 }
 
 void Player::Draw() {
