@@ -30,9 +30,8 @@ class Workspace {
 
 		Player* player;
 		std::vector<Model3D*> models;
-		std::vector<Skybox*> skybox;
-
-		Skybox* skybox;
+		
+		Skybox skybox;
 		PointLight pointLight;
 		DirectionLight directionLight;
 

@@ -58,7 +58,6 @@ void Workspace::start() {
 		Modified in blender to remove her weapons and scale her down (she was really big)
 	*/
 
-	this->skybox = new Skybox(new TexInfo(6));
 
 	
 	/*
@@ -108,7 +107,7 @@ void Workspace::render() {
 	//this->pointLight.setPosition(models[0]->getTransform().getTransformedPosition());
 	//this->setUnlit(false);
 	//models[0]->Draw();
-
+	
 
 	this->setUnlit(true);
 	player->Draw();

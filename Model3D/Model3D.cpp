@@ -4,7 +4,6 @@
 /*Aids in handling the 3D Model*/
 Model3D::Model3D(std::string modelFilename, TexInfo* texInfo, bool isNormalMapped){
 
-    
     if (isNormalMapped) {
 
     }

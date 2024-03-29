@@ -37,6 +37,9 @@ glm::vec3 Transform::getPosition() {
 	return transformMatrix[3];
 }
 
+void Transform::setScale(glm::vec3 s) { this->scale = s; }
+void Transform::Scale(glm::vec3 s) { this->scale += s; }
+
 #include "../Utilities.h"
 
 /*

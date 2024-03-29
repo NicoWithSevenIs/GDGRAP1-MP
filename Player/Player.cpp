@@ -3,11 +3,14 @@
 #include "Player.hpp"
 #include <string>
 Player::Player(glm::vec3 position):
-	playerModel(Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png"))),
+	playerModel("3D/SubLow0Smooth.obj", new TexInfo("3D/fish.png"), false),
 	pCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.f, 0.f, -1.0f)),
 	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
-{
+{	
+
+	this->playerModel.getTransform().setScale(glm::vec3(0.001027f, 0.001027f, 0.001027f));
+
 	this->currentCamera = &pCamera;
 	this->previousPos = position;
 
@@ -129,7 +132,8 @@ float theta = 0.f;
 void Player::moveXZ(float speed) {
 	
 	if (currentCamera == &pCamera) {
-		getPlayerTransform().setTranslation(pCamera.getCameraPos());
+		//getPlayerTransform().setTranslation(pCamera.getCameraPos());
+		getPlayerTransform().setTranslation(pCamera.getCameraPos() + pCamera.getCameraFront());
 		getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
 	}
 	/*

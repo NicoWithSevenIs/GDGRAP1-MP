@@ -33,5 +33,7 @@ class Transform {
 
 		glm::mat4 getTransformMatrix();
 		glm::vec3 getPosition();
+		void setScale(glm::vec3 s);
+		void Scale(glm::vec3 s);
 		
 };
