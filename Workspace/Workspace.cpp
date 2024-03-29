@@ -128,6 +128,7 @@ void Workspace::setUnlit(bool value) {
 void Workspace::update() {
 
 	this->player->moveXZ(0.01f);
+	this->player->moveY(0.01f);
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 	for (auto j : i) {
 		j.second.Invoke();

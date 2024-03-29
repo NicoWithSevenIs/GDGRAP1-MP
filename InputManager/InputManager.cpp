@@ -17,9 +17,9 @@ void InputManager::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 
  
 
-    if(i->bSwitch)
+   // if(i->bSwitch)
         i->updateCurrentLookAt(xpos, ypos);
-    else
+    //else
         i->updateHoverDelta(xpos, ypos);
 }
 
@@ -72,7 +72,7 @@ void InputManager::updateHoverDelta(float x, float y) {
         return;
     }
 
-    i->currentHover = glm::vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2) - glm::vec2(x, y);
+    i->currentHover = glm::vec2(x, y);
     
 }
 glm::vec2 InputManager::getHoverDelta(){return this->currentHover;}

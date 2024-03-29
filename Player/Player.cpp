@@ -5,7 +5,7 @@
 Player::Player(glm::vec3 position):
 	playerModel(Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png"))),
 	pCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
-	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f)),
+	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
 {
 	this->currentCamera = &pCamera;
@@ -59,7 +59,24 @@ void Player::addPlayerControls() {
 			this->zInput = 0.f;
 	};
 
+	i[GLFW_KEY_E].onPress += [this]() {
+		this->yInput = 1;
+	};
 
+	i[GLFW_KEY_E].onRelease += [this] {
+		if (this->yInput > 0)
+			this->yInput = 0.f;
+	};
+
+
+	i[GLFW_KEY_Q].onPress += [this]() {
+		this->yInput = -1;
+	};
+
+	i[GLFW_KEY_Q].onRelease += [this] {
+		if (this->yInput < 0)
+			this->yInput = 0.f;
+	};
 }
 
 void Player::addCameraControls() {
@@ -108,29 +125,33 @@ void Player::addCameraControls() {
 
 }
 
+float theta = 0.f;
 void Player::moveXZ(float speed) {
 	
+	getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
+	/*
 	glm::vec3 direction = glm::vec3(zInput, 0, xInput);
+
 	if(direction == glm::vec3(0,0,0))
 		return;
 	
 	direction = glm::normalize(direction) * speed;
 
-	getPlayerTransform().setVector(TransformType::Translation, 
-		getPlayerTransform().getVector(TransformType::Translation) + direction
-	);
+	glm::vec3 previous = getPlayerTransform().getPosition();
+	getPlayerTransform().translate(direction);
+
+	Utils::printVec3(getPlayerTransform().getPosition());
+	glm::vec3 current = getPlayerTransform().getPosition();
+	*/
+
 	
-	glm::vec3 current = getPlayerTransform().getTransformedPosition();
+	/*my alg
+		glm::vec3 lookDir = glm::normalize(current-previous);
+		float angle = atan2(lookDir.x, lookDir.z) * 180 / 3.14;
+		getPlayerTransform().setRotation({0,1,0}, angle);
+	*/
 
-
-
-	float angle = atan2(direction.x, direction.z) * 180 / 3.14 ;
-
-	Utils::Log(std::to_string(angle));
-
-	getPlayerTransform().setTheta(angle);
-
-
+	//alg i grabbed off the net
 
 
 }
@@ -139,11 +160,15 @@ void Player::moveY(float speed) {
 	if(yInput == 0)
 		return;
 
-
+	glm::vec3 movementVector = glm::vec3(0, yInput, 0) * speed;
+	getPlayerTransform().translate(movementVector);
 }
 
 void Player::Draw() {
 	currentCamera->Draw();
+
+	//float delta = InputManager::getInstance()->getHoverDelta().x / SCREEN_WIDTH - 0.5f;
+	//getPlayerTransform().setTheta(delta*180);
 	playerModel.Draw();
 }
 
