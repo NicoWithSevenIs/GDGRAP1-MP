@@ -92,6 +92,7 @@ void Player::addCameraControls() {
 
 	i[GLFW_KEY_2].onPress += [this]() {
 		this->currentCamera = &this->oCamera;
+		oCamera.setCameraPos(getPlayerTransform().getPosition());
 	};
 
 	i[GLFW_KEY_3].onPress += [this]() {
@@ -136,6 +137,7 @@ void Player::moveXZ(float speed) {
 		glm::vec3 clampedCpos = { cPos.x, pPos.y, cPos.z };
 		getPlayerTransform().setTranslation(clampedCpos + cF);
 		getPlayerTransform().lookAt(clampedCpos, clampedCpos - cF);
+		Utils::printVec3(clampedCpos);
 	}
 	/*
 		glm::vec3 direction = glm::vec3(zInput, 0, xInput);
@@ -170,7 +172,9 @@ void Player::moveY(float speed) {
 	if(yInput == 0)
 		return;
 
-	glm::vec3 movementVector = glm::vec3(0, yInput, 0) * speed;
+	if (getPlayerTransform().getPosition().y + yInput * speed >= 1)
+		return;
+	glm::vec3 movementVector = glm::vec3(0, yInput, 0) * 0.001f;
 	getPlayerTransform().translate(movementVector);
 }
 
