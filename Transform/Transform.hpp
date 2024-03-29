@@ -7,6 +7,7 @@
 
 #include <unordered_map>
 #include <functional>
+
 #include <cmath>
 
 
@@ -25,13 +26,17 @@ class Transform {
 
 	public:
 		void translate(glm::vec3 t);
+
 		//void moveTo(glm::vec3 dest);
 		void setTranslation(glm::vec3 t);
 		void setRotation(glm::vec3 axis, float theta);
 
 		void lookAt(glm::vec3 current, glm::vec3 target);
+		void setRotationEuler(float roll, float yaw, float pitch);
 
 		glm::mat4 getTransformMatrix();
 		glm::vec3 getPosition();
+
+		float getYRotation();
 		
 };

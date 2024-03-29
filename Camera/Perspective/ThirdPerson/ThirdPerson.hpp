@@ -8,6 +8,10 @@ class ThirdPerson :public Perspective {
 	private:
 
 		Transform* cameraSubject;
+		float distanceFromSubject;
+		float angleAroundSubject;
+		float pitchTilt;
+	 
 
 	public:
 		ThirdPerson(glm::vec3 cameraPos, glm::vec3 cameraFront, Transform* subject);

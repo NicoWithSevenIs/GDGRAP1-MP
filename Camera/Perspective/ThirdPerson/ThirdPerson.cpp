@@ -1,11 +1,19 @@
 #pragma once
 
 #include "ThirdPerson.hpp"
-
+#include "../../Config.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 ThirdPerson::ThirdPerson(glm::vec3 cameraPos, glm::vec3 cameraFront, Transform* subject) :
     Perspective(cameraPos, cameraFront) {
-    this->cameraSubject = subject;    
+    
+    
+    this->cameraSubject = subject; 
+    
+    distanceFromSubject = 0.5;
+    angleAroundSubject = 50;
+    pitchTilt = 20;
 }
+
 
 
 
@@ -18,11 +26,33 @@ void ThirdPerson::Draw() {
 
     glm::vec2 delta = InputManager::getInstance()->getHoverDelta();
 
-    glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);  
+    
+    delta.x /= SCREEN_WIDTH;
+    delta.x -= 0.5;
+    float lookAngle = this->angleAroundSubject * delta.x;
 
-    delta *= 0.2;
-    viewMatrix = glm::rotate(viewMatrix, glm::radians(-delta.y), glm::vec3(1,0,0));
-    viewMatrix = glm::rotate(viewMatrix, glm::radians(-delta.x), glm::vec3(0,1,0));
+    float horizontalDistance = distanceFromSubject * cos(pitchTilt);
+    float verticalDistance = distanceFromSubject * sin(pitchTilt);
+
+    float theta = cameraSubject->getYRotation() + lookAngle;
+    float xOffset = horizontalDistance * cos(theta);
+    float zOffset = horizontalDistance * sin(theta);
+
+    glm::vec3 pos;
+
+    pos.x = cameraSubject->getPosition().x + xOffset;
+    pos.y = cameraSubject->getPosition().y + verticalDistance - 0.6;
+    pos.z = cameraSubject->getPosition().z - zOffset;
+
+    glm::mat4 viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);  
+    
+    //pitch rotation
+  
+    viewMatrix = glm::rotate(viewMatrix, glm::radians(pitchTilt), glm::vec3(1, 0, 0));
+    viewMatrix = glm::translate(viewMatrix, pos);
+    viewMatrix = glm::rotate(viewMatrix, glm::radians(180 - theta), glm::vec3(0, 1, 0));
+    
+
     this->viewMatrix = viewMatrix;
 
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(this->fieldOfView), 1280.f / 720.f, 0.1f, 100.f);
@@ -37,3 +67,8 @@ void ThirdPerson::Draw() {
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
 }
+
+
+//delta *= 0.2;
+  //;
+  //viewMatrix = glm::rotate(viewMatrix, glm::radians(-delta.x), glm::vec3(0,1,0));

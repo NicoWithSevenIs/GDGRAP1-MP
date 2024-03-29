@@ -32,7 +32,7 @@ bool Workspace::awake() {
 
 	//Sets Input callbacks from Input Manager static methods
 	glfwSetKeyCallback(this->window, InputManager::keyCallback);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, InputManager::mouseCallback);
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -49,20 +49,6 @@ void Workspace::start() {
 	ShaderManager::LoadShaders();
 	this->player = new Player();
 	this->skybox.initialize();
-
-	/*
-		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
-		by 1FENIL is licensed under Creative Commons Attribution 
-		(http://creativecommons.org/licenses/by/4.0/).
-
-		Modified in blender to remove her weapons and scale her down (she was really big)
-	*/
-
-	/*
-		"Anemo Slime" (https://skfb.ly/oR8Kx)
-		by LinjieFan is licensed under Creative Commons Attribution-NonCommercial 
-		(http://creativecommons.org/licenses/by-nc/4.0/).
-	*/
 
 	/*
 	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
@@ -129,6 +115,7 @@ void Workspace::update() {
 
 	this->player->moveXZ(0.01f);
 	this->player->moveY(0.01f);
+
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 	for (auto j : i) {
 		j.second.Invoke();

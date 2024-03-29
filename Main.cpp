@@ -1,6 +1,6 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
-
+//#define _USE_MATH_DEFINES
 #include "Workspace/Workspace.hpp"
 /*
 

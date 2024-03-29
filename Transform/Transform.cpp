@@ -29,7 +29,7 @@ void Transform::setTranslation(glm::vec3 t) {
 
 void Transform::setRotation(glm::vec3 axis, float theta) {
 	glm::mat4 rotation = glm::mat4(1.0);
-	this->rotation = glm::rotate(rotation, theta, axis);
+	this->rotation = glm::rotate(rotation, glm::radians(theta), axis);
 }
 
 glm::vec3 Transform::getPosition() {
@@ -67,4 +67,37 @@ void Transform::lookAt(glm::vec3 current, glm::vec3 target) {
 		direction.x, direction.y, direction.z, 0.0f,
 		0, 0, 0, 1.0f);
 
+}
+
+/*
+Source:
+
+https://community.khronos.org/t/how-implement-euler-angle-in-opengl/60396
+*/
+
+void Transform::setRotationEuler(float pitch, float yaw, float roll) {
+	glm::mat4 r = glm::mat4(1.f);
+
+
+	r *= glm::rotate(r, pitch, { 1,0,0 });
+	r *= glm::rotate(r, yaw,   { 0,1,0 });
+	r *= glm::rotate(r, roll,  { 0,0,1 });
+
+	this->rotation = r;
+
+}
+
+/*
+Source: https://stackoverflow.com/questions/15022630/how-to-calculate-the-angle-from-rotation-matrix
+*/
+float Transform::getYRotation() {
+	
+	//r31
+	float x = -rotation[0][2];
+
+	// sqrt(r32 ^ 2 + r33 ^ 2)
+	float y = sqrt(rotation[1][2] * rotation[1][2] + rotation[2][2] * rotation[2][2]);
+
+	//ermm fix this later
+	return atan2(x,y) * 180/ 3.14159265358979323846;
 }

@@ -5,13 +5,13 @@
 Player::Player(glm::vec3 position):
 	playerModel(Model3D("3D/akali new.obj", new TexInfo("3D/akalitex.png"))),
 	pCamera(glm::vec3(0.0f, -5.0f, 0.0f), glm::vec3(0.f, -5, -1.0f)),
-	tCamera(glm::vec3(0.0f, -5.0f, 2.0f), glm::vec3(0.f, -5, -1.0f), &playerModel.getTransform()),
+	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
 {
-	this->currentCamera = &pCamera;
+	this->currentCamera = &tCamera;
 	this->previousPos = position;
 
-	getPlayerTransform().translate({0, -5, 0});
+	//getPlayerTransform().translate({0, -5, 0});
 
 	this->xInput = 0.f;
 	this->yInput = 0.f;
@@ -22,43 +22,43 @@ void Player::addPlayerControls() {
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 
 	i[GLFW_KEY_W].onPress += [this]() {
-		this->xInput = -1;
-	};
-
-	i[GLFW_KEY_W].onRelease += [this] {
-		if (this->xInput < 0)
-			this->xInput = 0.f;
-	};
-
-
-	i[GLFW_KEY_A].onPress += [this]() {
 		this->zInput = -1;
 	};
 
-	i[GLFW_KEY_A].onRelease += [this] {
+	i[GLFW_KEY_W].onRelease += [this] {
 		if (this->zInput < 0)
 			this->zInput = 0.f;
 	};
 
 
+	i[GLFW_KEY_A].onPress += [this]() {
+		this->xInput = -1;
+	};
+
+	i[GLFW_KEY_A].onRelease += [this] {
+		if (this->xInput < 0)
+			this->xInput = 0.f;
+	};
+
+
 	i[GLFW_KEY_S].onPress += [this]() {
-		this->xInput = 1;
+		this->zInput = 1;
 	};
 
 	i[GLFW_KEY_S].onRelease += [this] {
-		if (this->xInput > 0)
-			this->xInput = 0.f;
+		if (this->zInput > 0)
+			this->zInput = 0.f;
 
 	};
 
 
 	i[GLFW_KEY_D].onPress += [this]() {
-		this->zInput = 1;
+		this->xInput = 1;
 	};
 
 	i[GLFW_KEY_D].onRelease += [this] {
-		if (this->zInput > 0)
-			this->zInput = 0.f;
+		if (this->xInput > 0)
+			this->xInput = 0.f;
 	};
 
 	i[GLFW_KEY_E].onPress += [this]() {
@@ -80,6 +80,8 @@ void Player::addPlayerControls() {
 			this->yInput = 0.f;
 	};
 }
+
+
 
 void Player::addCameraControls() {
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
@@ -113,10 +115,12 @@ void Player::addCameraControls() {
 	};
 
 	i[GLFW_KEY_LEFT].onPress += [this, cameraSpeed]() {
+	
 		if (currentCamera != &oCamera)
 			return;
 		auto cPos = oCamera.getCameraPos();
 		oCamera.setCameraPos({ cPos.x + cameraSpeed, cPos.y, cPos.z });
+		
 	};
 
 	i[GLFW_KEY_DOWN].onPress += [this, cameraSpeed]() {
@@ -127,44 +131,52 @@ void Player::addCameraControls() {
 	};
 
 	i[GLFW_KEY_RIGHT].onPress += [this, cameraSpeed]() {
+		
 		if (currentCamera != &oCamera)
 			return;
 		auto cPos = oCamera.getCameraPos();
 		oCamera.setCameraPos({ cPos.x - cameraSpeed, cPos.y, cPos.z});
+	
 	};
 
-
-
+	
 
 
 }
 
-float theta = 0.f;
 void Player::moveXZ(float speed) {
+	glm::vec3 direction = glm::vec3(xInput, 0, zInput);
+	
+
 
 	if (currentCamera == &oCamera)
 		return;
 
+	
+
 	if (currentCamera == &pCamera) {
+
+	
 		getPlayerTransform().setTranslation(pCamera.getCameraPos());
 		getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
-	}
-	/*
-		glm::vec3 direction = glm::vec3(zInput, 0, xInput);
-
-		if(direction == glm::vec3(0,0,0))
-			return;
 	
-		direction = glm::normalize(direction) * speed;
+	
+	}
+	else if (currentCamera == &tCamera) {
 
+		if (direction == glm::vec3(0, 0, 0))
+			return;
+
+		direction = glm::normalize(direction) * speed;
 		glm::vec3 previous = getPlayerTransform().getPosition();
 		getPlayerTransform().translate(direction);
-
-		Utils::printVec3(getPlayerTransform().getPosition());
 		glm::vec3 current = getPlayerTransform().getPosition();
-	*/
+		getPlayerTransform().lookAt(current, previous);
+			
+	}
 
-	/*my alg
+
+	/*my old alg
 
 		glm::vec3 current = pCamera.getCameraPos();
 		glm::vec3 target = pCamera.getCameraPos() - pCamera.getCameraFront();
