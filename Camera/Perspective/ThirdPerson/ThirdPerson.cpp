@@ -27,11 +27,9 @@ void ThirdPerson::Draw() {
     //Retrieves the delta value of ScreenToViewport from InputManager then rotate the view matrix with it
 
     glm::vec2 delta = InputManager::getInstance()->getHoverDelta();
-    std::cout << delta.x << std::endl;
 
     float lookAngle = angleAroundSubject *  delta.x;
 
-    ///std::cout << delta.x << std::endl;
 
     float horizontalDistance = distanceFromSubject * cos(glm::radians(pitchTilt));
     float verticalDistance = distanceFromSubject * sin(glm::radians(pitchTilt));
@@ -46,7 +44,6 @@ void ThirdPerson::Draw() {
     pos.y = cameraSubject->getPosition().y + verticalDistance;
     pos.z = cameraSubject->getPosition().z - zOffset;
 
-    std::cout << verticalDistance << std::endl;
     //Utils::printVec3(cameraSubject->getPosition());
 
 

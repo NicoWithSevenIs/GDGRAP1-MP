@@ -196,10 +196,8 @@ void Player::moveY(float speed) {
 	if(currentCamera == &oCamera)
 		return;
 
-	if(yInput == 0)
-		return;
-
-	if (getPlayerTransform().getPosition().y + yInput * speed >= 1)
+	Utils::printVec3(getPlayerTransform().getPosition());
+	if (yInput == 0 || getPlayerTransform().getPosition().y + yInput * speed >= 1)
 		return;
 
 	if (currentCamera == &pCamera) {
