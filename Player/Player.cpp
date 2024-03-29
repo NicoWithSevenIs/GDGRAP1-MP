@@ -158,7 +158,11 @@ void Player::moveXZ(float speed) {
 	
 
 	if (currentCamera == &pCamera) {
-
+		
+		glm::vec3 cPos = pCamera.getCameraPos();
+		pCamera.setCameraPos(
+			glm::vec3(cPos.x + xInput * speed, cPos.y, cPos.z + zInput * speed)
+		);
 	
 		getPlayerTransform().setTranslation(pCamera.getCameraPos());
 		getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
@@ -171,10 +175,10 @@ void Player::moveXZ(float speed) {
 			return;
 
 		direction = glm::normalize(direction) * speed;
-		//glm::vec3 previous = getPlayerTransform().getPosition();
+		glm::vec3 previous = getPlayerTransform().getPosition();
 		getPlayerTransform().translate(direction);
-		//glm::vec3 current = getPlayerTransform().getPosition();
-		//getPlayerTransform().lookAt(current, previous);
+		glm::vec3 current = getPlayerTransform().getPosition();
+		getPlayerTransform().lookAt(current, previous);
 			
 	}
 
