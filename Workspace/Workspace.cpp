@@ -108,8 +108,6 @@ void Workspace::render() {
 	//this->setUnlit(false);
 	//models[0]->Draw();
 	
-
-	this->setUnlit(true);
 	player->Draw();
 
 	

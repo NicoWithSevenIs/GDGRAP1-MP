@@ -23,6 +23,7 @@ class Model3D {
 		GLuint VBO;
 
 		GLuint texture;
+		GLuint normTexture;
 
 	public:
 		Model3D(std::string modelFilename, TexInfo* texInfo, bool isNormalMapped);
@@ -37,7 +38,7 @@ class Model3D {
 
 	public:
 		void Draw();
-
+		void DrawNormalMapped();
 	public:
 		ObjData getObjData();
 		Transform& getTransform();

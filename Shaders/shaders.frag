@@ -29,8 +29,6 @@ uniform float directionLightSpecPhong;
 
 uniform vec3 cameraPos;
 
-uniform int isUnlit;
-
 uniform float directionLightBrightness;
 
 uniform float pointLightBrightness;
@@ -86,12 +84,6 @@ void main() {
 
     vec3 result = dirLightResult + pointLightResult;
 
-    if (isUnlit == 1) {
-        FragColor = vec4(result, 1.0) * texture(tex0, texCoord);
-    }
-    else {
-        FragColor = vec4(pointLightColor, 1.0); /* * texture(tex0, texCoord) */
-    }
-    
+    FragColor = vec4(result, 1.0) * texture(tex0, texCoord);  
 
 }

@@ -53,6 +53,78 @@ void Model3D::generateTexture(TexInfo* texInfo) {
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
+void Model3D::generateTextureWithNormalMap(TexInfo * texInfo) {
+
+    glGenTextures(1, &this->texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, this->texture);
+
+    switch (texInfo->getColorChannels()) {
+        case 3:
+            glTexImage2D(GL_TEXTURE_2D,
+                0,
+                GL_RGB,
+                texInfo->getWidth(),
+                texInfo->getHeight(),
+                0,
+                GL_RGB,
+                GL_UNSIGNED_BYTE,
+                texInfo->getTexBytes()
+            );
+            break;
+        case 4:
+            glTexImage2D(GL_TEXTURE_2D,
+                0,
+                GL_RGBA,
+                texInfo->getWidth(),
+                texInfo->getHeight(),
+                0,
+                GL_RGBA,
+                GL_UNSIGNED_BYTE,
+                texInfo->getTexBytes()
+            );
+        break;
+    }
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    glGenTextures(1, &this->normTexture);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, this->normTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+    switch (texInfo->getColorChannels2()) {
+    case 3:
+        glTexImage2D(GL_TEXTURE_2D,
+            0,
+            GL_RGB,
+            texInfo->getWidth2(),
+            texInfo->getHeight2(),
+            0,
+            GL_RGB,
+            GL_UNSIGNED_BYTE,
+            texInfo->getNormalBytes()
+        );
+        break;
+    case 4:
+        glTexImage2D(GL_TEXTURE_2D,
+            0,
+            GL_RGBA,
+            texInfo->getWidth2(),
+            texInfo->getHeight2(),
+            0,
+            GL_RGBA,
+            GL_UNSIGNED_BYTE,
+            texInfo->getNormalBytes()
+        );
+        break;
+    }
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(texInfo->getNormalBytes());
+}
+
 void Model3D::initializeBuffers() {
     glGenVertexArrays(1, &this->VAO); 
     glGenBuffers(1, &this->VBO); 
@@ -118,3 +190,6 @@ void Model3D::Draw() {
 
 }
 
+void Model3D::DrawNormalMapped() {
+
+}

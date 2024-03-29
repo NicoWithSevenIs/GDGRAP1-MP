@@ -53,5 +53,8 @@ class TexInfo {
 		std::vector<int> getVecHeight();
 		std::vector<int> getVecColorChannels();
 		unsigned char* getNormalBytes();
+		int getWidth2();
+		int getHeight2();
+		int getColorChannels2();
 
 };

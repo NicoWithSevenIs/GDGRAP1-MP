@@ -5,6 +5,7 @@
 ShaderManager::ShaderManager() {
     this->shaders["Model"] = nullptr;
     this->shaders["Skybox"] = nullptr;
+    this->shaders["Player"] = nullptr;
 }
 
 ShaderManager::~ShaderManager() {
@@ -59,6 +60,7 @@ void ShaderManager::LoadShaders() {
 
     i->LoadShader("Skybox", "Shaders/skybox.vert", GL_VERTEX_SHADER);
     i->LoadShader("Skybox", "Shaders/skybox.frag", GL_FRAGMENT_SHADER);
+
 
     glLinkProgram(*getSkyboxShader());
 }

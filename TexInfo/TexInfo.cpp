@@ -73,3 +73,6 @@ std::vector<int> TexInfo::getVecWidth() { return this->vecWidth; }
 std::vector<int> TexInfo::getVecHeight() { return this->vecHeight; }
 std::vector<int> TexInfo::getVecColorChannels() { return this->vecColorChannels; }
 unsigned char* TexInfo::getNormalBytes() { return this->normal_bytes; }
+int TexInfo::getWidth2() { return this->img_width2; }
+int TexInfo::getHeight2() { return this->img_height2; }
+int TexInfo::getColorChannels2() { return this->colorChannels2; }
