@@ -32,7 +32,7 @@ bool Workspace::awake() {
 
 	//Sets Input callbacks from Input Manager static methods
 	glfwSetKeyCallback(this->window, InputManager::keyCallback);
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, InputManager::mouseCallback);
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);

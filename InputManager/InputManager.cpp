@@ -67,12 +67,12 @@ void InputManager::updateHoverDelta(float x, float y) {
 
     if (i->firstMouseEnter)
     {
-        i->previousHover = glm::vec2(x, y);
+        i->previousHover = glm::vec2(x/SCREEN_WIDTH, y/SCREEN_HEIGHT);
         i->firstMouseEnter = false;
         return;
     }
 
-    i->currentHover = glm::vec2(x, y);
+    i->currentHover = glm::vec2(x / SCREEN_WIDTH, y / SCREEN_HEIGHT) - previousHover;
     
 }
 glm::vec2 InputManager::getHoverDelta(){return this->currentHover;}

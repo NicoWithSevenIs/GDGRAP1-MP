@@ -11,7 +11,7 @@ Player::Player(glm::vec3 position):
 	this->currentCamera = &tCamera;
 	this->previousPos = position;
 
-	//getPlayerTransform().translate({0, -5, 0});
+	getPlayerTransform().translate({0, -5, 0});
 
 	this->xInput = 0.f;
 	this->yInput = 0.f;
@@ -168,10 +168,10 @@ void Player::moveXZ(float speed) {
 			return;
 
 		direction = glm::normalize(direction) * speed;
-		glm::vec3 previous = getPlayerTransform().getPosition();
+		//glm::vec3 previous = getPlayerTransform().getPosition();
 		getPlayerTransform().translate(direction);
-		glm::vec3 current = getPlayerTransform().getPosition();
-		getPlayerTransform().lookAt(current, previous);
+		//glm::vec3 current = getPlayerTransform().getPosition();
+		//getPlayerTransform().lookAt(current, previous);
 			
 	}
 

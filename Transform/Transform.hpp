@@ -31,6 +31,10 @@ class Transform {
 		void setTranslation(glm::vec3 t);
 		void setRotation(glm::vec3 axis, float theta);
 
+		glm::vec3 getTranslation(){
+			return translation;
+		}
+
 		void lookAt(glm::vec3 current, glm::vec3 target);
 		void setRotationEuler(float roll, float yaw, float pitch);
 
