@@ -165,7 +165,7 @@ void ObjData::LoadPlayer(std::string filename) {
         fullVertexData.push_back(bitangents[i].z);
     }
 
-
+    this->initialized = true;
 
 }
 

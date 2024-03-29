@@ -9,7 +9,7 @@ DirectionLight::DirectionLight() {
 void DirectionLight::Draw() {
 	
 	auto modelShader = ShaderManager::getModelShader();
-
+	
 	GLuint directionLightBrightnessAddress = glGetUniformLocation(*modelShader, "directionLightBrightness");
 	glUniform1f(directionLightBrightnessAddress, this->brightness);
 

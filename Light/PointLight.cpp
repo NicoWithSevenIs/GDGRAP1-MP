@@ -46,8 +46,6 @@ void PointLight::Draw() {
 
 }
 
-
-
 void PointLight::setConstant(float value) {
 	this->constant = value;
 }

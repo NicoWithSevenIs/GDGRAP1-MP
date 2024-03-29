@@ -3,7 +3,7 @@
 #include "Player.hpp"
 #include <string>
 Player::Player(glm::vec3 position):
-	playerModel("3D/SubLow0Smooth.obj", new TexInfo("3D/fish.png"), false),
+	playerModel("3D/SubLow0Smooth.obj", new TexInfo("3D/fish.png", "3D/fish_normal.png"), true),
 	pCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.f, 0.f, -1.0f)),
 	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
@@ -122,10 +122,6 @@ void Player::addCameraControls() {
 			glm::normalize(glm::cross(pCamera.getCameraFront(), glm::vec3(0, 1, 0)))));
 	};
 
-
-
-
-
 }
 
 float theta = 0.f;
@@ -176,7 +172,7 @@ void Player::Draw() {
 
 	//float delta = InputManager::getInstance()->getHoverDelta().x / SCREEN_WIDTH - 0.5f;
 	//getPlayerTransform().setTheta(delta*180);
-	playerModel.Draw();
+	playerModel.DrawNormalMapped();
 }
 
 Camera* Player::getCurrentCamera() {

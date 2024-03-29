@@ -46,10 +46,14 @@ TexInfo::TexInfo(std::string filename1, std::string filename2) {
     stbi_set_flip_vertically_on_load(true);
     this->tex_bytes = stbi_load(filename1.c_str(), &this->img_width, &this->img_height, &this->colorChannels, 0);
     this->initialized = tex_bytes != NULL;
+    std::cout << "BASE TEXTURE:" << std::endl;
+    std::cout << (initialized ? "Loaded Succesfully" : "Failed to Load Texture") << std::endl;
 
     stbi_set_flip_vertically_on_load(true);
-    this->normal_bytes = stbi_load(filename2.c_str(), &img_width2, &img_height2, &colorChannels2, 0);
+    this->normal_bytes = stbi_load(filename2.c_str(), &this->img_width2, &this->img_height2, &this->colorChannels2, 0);
     this->initialized = normal_bytes != NULL;
+    std::cout << "NORMAL MAP TEXTURE:" << std::endl;
+    std::cout << (initialized ? "Loaded Succesfully" : "Failed to Load Texture") << std::endl;
 
 }
 

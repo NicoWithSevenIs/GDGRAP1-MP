@@ -47,8 +47,9 @@ bool Workspace::awake() {
 void Workspace::start() {
 
 	ShaderManager::LoadShaders();
-	this->player = new Player();
 	this->skybox.initialize();
+	this->player = new Player();
+	
 
 	/*
 		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
@@ -89,8 +90,6 @@ void Workspace::subscribe() {
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
 	
-	
-
 	this->skybox.Draw(player->getCurrentCamera()->getViewMatrix(), player->getCurrentCamera()->getProjectionMatrix());
 
 	this->directionLight.Draw();

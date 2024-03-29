@@ -30,4 +30,5 @@ void Orthographic::Draw(){
 
     unsigned int viewLoc = glGetUniformLocation(*modelShader, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
 }

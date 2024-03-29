@@ -3,6 +3,7 @@
 out vec4 FragColor;
 
 uniform sampler2D tex0;
+uniform sampler2D norm_tex;
 
 uniform vec3 pointLightPos;
 uniform vec3 pointLightColor;
@@ -37,9 +38,20 @@ in vec2 texCoord;
 in vec3 normCoord;
 in vec3 fragPos;
 
-void main() {
+in mat3 TBN;
 
-	vec3 normal = normalize(normCoord);
+void main() {
+    
+    vec4 pixelColor = texture(tex0, texCoord);
+    if (pixelColor.a < 0.1) {
+        discard;
+    }
+	
+    //vec3 normal = normalize(normCoord);
+     vec3 normal = texture(norm_tex, texCoord).rgb;
+     normal = normalize(normal * 2.0 - 1.0);
+     normal = normalize(TBN * normal);
+
     vec3 viewDir = normalize(cameraPos - fragPos);
 
     // POINT LIGHT STUFF //
