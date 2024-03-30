@@ -12,6 +12,40 @@ PointLight::PointLight() : Light() {
 
 void PointLight::Draw() {
 
+		auto modelShader2 = ShaderManager::getModelShader();
+	
+		GLuint pointLightBrightnessAddress2 = glGetUniformLocation(*modelShader2, "pointLightBrightness");
+		glUniform1f(pointLightBrightnessAddress2, this->brightness);
+	
+		GLuint lightAddress2 = glGetUniformLocation(*modelShader2, "pointLightPos");
+		glUniform3fv(lightAddress2, 1, glm::value_ptr(this->lightPosition));
+	
+		GLuint lightColorAddress2 = glGetUniformLocation(*modelShader2, "pointLightColor");
+		glUniform3fv(lightColorAddress2, 1, glm::value_ptr(this->lightColor));
+	
+		GLuint ambientStrAddress2 = glGetUniformLocation(*modelShader2, "pointLightAmbientStr");
+		glUniform1f(ambientStrAddress2, this->ambientStr);
+	
+		GLuint ambientColorAddress2 = glGetUniformLocation(*modelShader2, "pointLightAmbientColor");
+		glUniform3fv(ambientColorAddress2, 1, glm::value_ptr(this->ambientColor));
+	
+		GLuint baseConstantAddress2 = glGetUniformLocation(*modelShader2, "constant");
+		glUniform1f(baseConstantAddress2, this->constant);
+	
+		GLuint baseLinearAddress2 = glGetUniformLocation(*modelShader2, "linear");
+		glUniform1f(baseLinearAddress2, this->linear);
+	
+		GLuint baseQuadraticAddress2 = glGetUniformLocation(*modelShader2, "quadratic");
+		glUniform1f(baseQuadraticAddress2, this->quadratic);
+	
+		GLuint specStrAddress2 = glGetUniformLocation(*modelShader2, "pointLightSpecStr");
+		glUniform1f(specStrAddress2, this->specStr);
+	
+		GLuint specPhongAddress2 = glGetUniformLocation(*modelShader2, "pointLightSpecPhong");
+		glUniform1f(specPhongAddress2, this->specPhong);
+}
+
+void PointLight::DrawNormalMapped() {
 	auto modelShader = ShaderManager::getModelShader();
 
 	GLuint pointLightBrightnessAddress = glGetUniformLocation(*modelShader, "pointLightBrightness");
@@ -43,39 +77,6 @@ void PointLight::Draw() {
 
 	GLuint specPhongAddress = glGetUniformLocation(*modelShader, "pointLightSpecPhong");
 	glUniform1f(specPhongAddress, this->specPhong);
-
-		auto modelShader2 = ShaderManager::getModelShader();
-	
-	///*	GLuint pointLightBrightnessAddress2 = glGetUniformLocation(*modelShader2, "pointLightBrightness");
-	//	glUniform1f(pointLightBrightnessAddress2, this->brightness);
-	//
-	//	GLuint lightAddress2 = glGetUniformLocation(*modelShader2, "pointLightPos");
-	//	glUniform3fv(lightAddress2, 1, glm::value_ptr(this->lightPosition));
-	//
-	//	GLuint lightColorAddress2 = glGetUniformLocation(*modelShader2, "pointLightColor");
-	//	glUniform3fv(lightColorAddress2, 1, glm::value_ptr(this->lightColor));
-	//
-	//	GLuint ambientStrAddress2 = glGetUniformLocation(*modelShader2, "pointLightAmbientStr");
-	//	glUniform1f(ambientStrAddress2, this->ambientStr);
-	//
-	//	GLuint ambientColorAddress2 = glGetUniformLocation(*modelShader2, "pointLightAmbientColor");
-	//	glUniform3fv(ambientColorAddress2, 1, glm::value_ptr(this->ambientColor));
-	//
-	//	GLuint baseConstantAddress2 = glGetUniformLocation(*modelShader2, "constant");
-	//	glUniform1f(baseConstantAddress2, this->constant);
-	//
-	//	GLuint baseLinearAddress2 = glGetUniformLocation(*modelShader2, "linear");
-	//	glUniform1f(baseLinearAddress2, this->linear);
-	//
-	//	GLuint baseQuadraticAddress2 = glGetUniformLocation(*modelShader2, "quadratic");
-	//	glUniform1f(baseQuadraticAddress2, this->quadratic);
-	//
-	//	GLuint specStrAddress2 = glGetUniformLocation(*modelShader2, "pointLightSpecStr");
-	//	glUniform1f(specStrAddress2, this->specStr);
-	//
-	//	GLuint specPhongAddress2 = glGetUniformLocation(*modelShader2, "pointLightSpecPhong");
-	//	glUniform1f(specPhongAddress2, this->specPhong);*/
-	//}
 }
 
 void PointLight::setConstant(float value) {

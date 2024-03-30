@@ -33,12 +33,9 @@ uniform float directionLightBrightness;
 
 uniform float pointLightBrightness;
 
-
 in vec2 texCoord;
 in vec3 normCoord;
 in vec3 fragPos;
-
-in mat3 TBN;
 
 void main() {
     

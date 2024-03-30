@@ -48,12 +48,12 @@ void Workspace::start() {
 
 	ShaderManager::LoadShaders();
 	this->skybox.initialize();
-	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png", "3D/submarine.png"), true));
+	
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
 	models[0]->getTransform().setTranslation(glm::vec3(25.f, -15.f, 10.f));
 	models[0]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
-
-	this->player = new Player();
 	
+	this->player = new Player();
 	/*
 		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
 		by 1FENIL is licensed under Creative Commons Attribution 
@@ -95,13 +95,25 @@ void Workspace::render() {
 	
 	this->skybox.Draw(player->getCurrentCamera()->getViewMatrix(), player->getCurrentCamera()->getProjectionMatrix());
 
-	auto modelShader = ShaderManager::getModelShader();
-	glUseProgram(*modelShader);
+	auto modelShader2 = ShaderManager::getModelShader2();
+	glUseProgram(*modelShader2);
+
+	this->player->getCurrentCamera()->Draw();
 
 	this->directionLight.Draw();
 	this->pointLight.Draw();
 
-	this->player->getCurrentCamera()->Draw();
+	
+
+	models[0]->Draw();
+
+	auto modelShader = ShaderManager::getModelShader();
+	glUseProgram(*modelShader);
+
+	this->player->getCurrentCamera()->DrawNormalMapped();
+
+	this->directionLight.DrawNormalMapped();
+	this->pointLight.DrawNormalMapped();
 
 	player->Draw();
 

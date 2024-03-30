@@ -8,30 +8,7 @@ DirectionLight::DirectionLight() {
 
 void DirectionLight::Draw() {
 	
-	auto modelShader = ShaderManager::getModelShader();
-	
-	GLuint directionLightBrightnessAddress = glGetUniformLocation(*modelShader, "directionLightBrightness");
-	glUniform1f(directionLightBrightnessAddress, this->brightness);
-
-	GLuint lightDirectionAddress = glGetUniformLocation(*modelShader, "directionLightDir");
-	glUniform3fv(lightDirectionAddress, 1, glm::value_ptr(this->lightDirection));
-
-	GLuint lightColorAddress = glGetUniformLocation(*modelShader, "directionLightColor");
-	glUniform3fv(lightColorAddress, 1, glm::value_ptr(this->lightColor));
-
-	GLuint ambientStrAddress = glGetUniformLocation(*modelShader, "directionLightAmbientStr");
-	glUniform1f(ambientStrAddress, this->ambientStr);
-
-	GLuint ambientColorAddress = glGetUniformLocation(*modelShader, "directionLightAmbientColor");
-	glUniform3fv(ambientColorAddress, 1, glm::value_ptr(this->ambientColor));
-
-	GLuint specStrAddress = glGetUniformLocation(*modelShader, "directionLightSpecStr");
-	glUniform1f(specStrAddress, this->specStr);
-
-	GLuint specPhongAddress = glGetUniformLocation(*modelShader, "directionLightSpecPhong");
-	glUniform1f(specPhongAddress, this->specPhong);
-
-	/*auto modelShader2 = ShaderManager::getModelShader2();
+	auto modelShader2 = ShaderManager::getModelShader2();
 
 	GLuint directionLightBrightnessAddress2 = glGetUniformLocation(*modelShader2, "directionLightBrightness");
 	glUniform1f(directionLightBrightnessAddress2, this->brightness);
@@ -52,8 +29,34 @@ void DirectionLight::Draw() {
 	glUniform1f(specStrAddress2, this->specStr);
 
 	GLuint specPhongAddress2 = glGetUniformLocation(*modelShader2, "directionLightSpecPhong");
-	glUniform1f(specPhongAddress2, this->specPhong);*/
+	glUniform1f(specPhongAddress2, this->specPhong);
 
+}
+
+void DirectionLight::DrawNormalMapped() {
+
+	auto modelShader = ShaderManager::getModelShader();
+
+	GLuint directionLightBrightnessAddress = glGetUniformLocation(*modelShader, "directionLightBrightness");
+	glUniform1f(directionLightBrightnessAddress, this->brightness);
+
+	GLuint lightDirectionAddress = glGetUniformLocation(*modelShader, "directionLightDir");
+	glUniform3fv(lightDirectionAddress, 1, glm::value_ptr(this->lightDirection));
+
+	GLuint lightColorAddress = glGetUniformLocation(*modelShader, "directionLightColor");
+	glUniform3fv(lightColorAddress, 1, glm::value_ptr(this->lightColor));
+
+	GLuint ambientStrAddress = glGetUniformLocation(*modelShader, "directionLightAmbientStr");
+	glUniform1f(ambientStrAddress, this->ambientStr);
+
+	GLuint ambientColorAddress = glGetUniformLocation(*modelShader, "directionLightAmbientColor");
+	glUniform3fv(ambientColorAddress, 1, glm::value_ptr(this->ambientColor));
+
+	GLuint specStrAddress = glGetUniformLocation(*modelShader, "directionLightSpecStr");
+	glUniform1f(specStrAddress, this->specStr);
+
+	GLuint specPhongAddress = glGetUniformLocation(*modelShader, "directionLightSpecPhong");
+	glUniform1f(specPhongAddress, this->specPhong);
 }
 
 void DirectionLight::setDirection(float x, float y, float z) {

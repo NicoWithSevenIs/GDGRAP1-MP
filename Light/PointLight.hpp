@@ -12,6 +12,7 @@ class PointLight : public Light {
 		PointLight();
 	public:
 		void Draw();
+		void DrawNormalMapped();
 	public:
 		void setConstant(float value);
 		void setLinear(float value);

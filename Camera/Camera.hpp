@@ -23,7 +23,7 @@ class Camera {
 
 	public:
 		virtual void Draw();
-
+		virtual void DrawNormalMapped();
 	public:
 		glm::vec3 getCameraPos();
 		glm::vec3 getCameraFront();

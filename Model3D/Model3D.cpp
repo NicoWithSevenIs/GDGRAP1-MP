@@ -53,6 +53,7 @@ void Model3D::generateTexture(TexInfo* texInfo) {
     }
 
     glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(texInfo->getTexBytes());
 }
 
 void Model3D::generateTextureWithNormalMap(TexInfo * texInfo) {
@@ -98,7 +99,7 @@ void Model3D::Draw() {
     GLintptr normPtr = 3 * sizeof(float);
     GLintptr uvptr = 6 * sizeof(float);
 
-    auto modelShader = ShaderManager::getModelShader2();
+    auto modelShader2 = ShaderManager::getModelShader2();
 
     glBindVertexArray(VAO); 
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO); 
@@ -124,16 +125,17 @@ void Model3D::Draw() {
 
     glBindVertexArray(0);
 
-    GLuint tex0Address = glGetUniformLocation(*modelShader, "tex0");
+    glActiveTexture(GL_TEXTURE0);
+    GLuint tex0Address = glGetUniformLocation(*modelShader2, "tex0");
     glBindTexture(GL_TEXTURE_2D, texture);
     glUniform1i(tex0Address, 0);
 
-    unsigned int transformLoc = glGetUniformLocation(*modelShader, "transform");
+    unsigned int transformLoc = glGetUniformLocation(*modelShader2, "transform");
 
     glm::mat4 transformMatrix = this->transform.getTransformMatrix();
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformMatrix));
 
-    glUseProgram(*modelShader);
+    glUseProgram(*modelShader2);
 
     glBindVertexArray(this->VAO);
 

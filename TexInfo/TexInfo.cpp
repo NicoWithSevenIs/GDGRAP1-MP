@@ -7,7 +7,7 @@ TexInfo::TexInfo(std::string filename) {
 	stbi_set_flip_vertically_on_load(true);
 	this->tex_bytes = stbi_load(filename.c_str(), &this->img_width, &this->img_height, &this->colorChannels, 0);
 	this->initialized = tex_bytes != NULL;
-
+    std::cout << "filename: " << filename << std::endl;
 	std::cout << (initialized ? "Loaded Succesfully" : "Failed to Load Texture" ) << std::endl;
 
 }
