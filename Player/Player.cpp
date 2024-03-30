@@ -168,7 +168,7 @@ void Player::moveY(float speed) {
 }
 
 void Player::Draw() {
-	currentCamera->Draw();
+	//currentCamera->Draw();
 
 	//float delta = InputManager::getInstance()->getHoverDelta().x / SCREEN_WIDTH - 0.5f;
 	//getPlayerTransform().setTheta(delta*180);

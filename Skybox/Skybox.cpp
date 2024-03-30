@@ -111,6 +111,4 @@ void Skybox::Draw(glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LESS);
 
-    
-    glUseProgram(*modelShader);
 }

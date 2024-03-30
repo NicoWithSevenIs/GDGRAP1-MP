@@ -206,6 +206,8 @@
   <ItemGroup>
     <None Include="Shaders\playershader.frag" />
     <None Include="Shaders\playershader.vert" />
+    <None Include="Shaders\shaders2.frag" />
+    <None Include="Shaders\shaders2.vert" />
     <None Include="Shaders\skybox.frag" />
     <None Include="Shaders\skybox.vert" />
   </ItemGroup>

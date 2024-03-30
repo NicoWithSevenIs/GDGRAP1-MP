@@ -10,7 +10,7 @@ Model3D::Model3D(std::string modelFilename, TexInfo* texInfo, bool isNormalMappe
         this->initializeBuffers();
     }
     else {
-        this->generateTextureWithNormalMap(texInfo);
+        this->generateTexture(texInfo);
         this->modelInfo.LoadModel(modelFilename);
         this->initializeBuffers();
     }
@@ -98,7 +98,7 @@ void Model3D::Draw() {
     GLintptr normPtr = 3 * sizeof(float);
     GLintptr uvptr = 6 * sizeof(float);
 
-    auto modelShader = ShaderManager::getModelShader();
+    auto modelShader = ShaderManager::getModelShader2();
 
     glBindVertexArray(VAO); 
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO); 
@@ -124,7 +124,7 @@ void Model3D::Draw() {
 
     glBindVertexArray(0);
 
-   GLuint tex0Address = glGetUniformLocation(*modelShader, "tex0");
+    GLuint tex0Address = glGetUniformLocation(*modelShader, "tex0");
     glBindTexture(GL_TEXTURE_2D, texture);
     glUniform1i(tex0Address, 0);
 
