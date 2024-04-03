@@ -53,6 +53,7 @@ void Workspace::start() {
 	models[0]->getTransform().setTranslation(glm::vec3(25.f, -15.f, 10.f));
 	models[0]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
 
+
 	this->player = new Player();
 	/*
 		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
@@ -70,14 +71,7 @@ void Workspace::start() {
 		(http://creativecommons.org/licenses/by-nc/4.0/).
 	*/
 
-	/*
-	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
-	models[0]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
-
-	//see Transform
-	models[0]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
-	*/
+	this->pointLight.setPosition(this->player->getFirstPersonCamera()->getCameraFront() + this->player->getFirstPersonCamera()->getCameraPos());
 }
 
 
@@ -176,6 +170,7 @@ void Workspace::update() {
 
 	this->player->moveXZ(0.01f);
 	this->player->moveY(0.01f);
+	this->pointLight.setPosition(this->player->getFirstPersonCamera()->getCameraFront() + this->player->getFirstPersonCamera()->getCameraPos());
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 	for (auto j : i) {
 		j.second.Invoke();

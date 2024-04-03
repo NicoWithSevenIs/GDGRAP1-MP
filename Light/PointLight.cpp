@@ -2,11 +2,11 @@
 
 PointLight::PointLight() : Light() {
 	this->lightPosition = glm::vec3(30.f, -40.f, 0.f);
-	this->lightColor = glm::vec3(1.f, 0.f, 1.f);
+	this->lightColor = glm::vec3(1.f, 0.f, 0.f);
 	this->constant = 1.0f;
 	this->linear = 0.027f;
 	this->quadratic = 0.0028f;
-	this->brightness = 2.3f;
+	this->brightness = 5.3f;
 }
 
 
