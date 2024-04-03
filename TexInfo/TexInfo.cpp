@@ -35,7 +35,8 @@ TexInfo::TexInfo(int size) {
         this->vecHeight.push_back(h);
         this->vecColorChannels.push_back(skyChannel);
     }
-
+    
+    
     stbi_set_flip_vertically_on_load(true);
 
 }

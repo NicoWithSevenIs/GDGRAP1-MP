@@ -1,9 +1,9 @@
 #include "Workspace.hpp"
 #include "../Config.hpp"
 
-Workspace::Workspace(): 
+Workspace::Workspace() :
 	skybox(TexInfo(6))
-{
+{	
 	this->window = NULL;
 
 	this->isMovingLightSource = false;
@@ -48,11 +48,11 @@ void Workspace::start() {
 
 	ShaderManager::LoadShaders();
 	this->skybox.initialize();
-	
+
 	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
 	models[0]->getTransform().setTranslation(glm::vec3(25.f, -15.f, 10.f));
 	models[0]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
-	
+
 	this->player = new Player();
 	/*
 		"League Of Legends - Akali V3" (https://skfb.ly/ooKK6) 
@@ -92,8 +92,26 @@ void Workspace::subscribe() {
 
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
-	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	bool value;
+
+	if (player->getCurrentCamera() != player->getFirstPersonCamera()) {
+		GLint tintLoc = glGetUniformLocation(*ShaderManager::getSkyboxShader(), "tint");
+		glUniform1i(tintLoc, 1);
+
+		this->pointLight.setColor(glm::vec3(1.f, 1.f, 1.f));
+		this->directionLight.setColor(glm::vec3(1.f, 1.f, 1.f));
+		value = false;
+		
+	}
+	else {
+		this->pointLight.setColor(glm::vec3(0.f, 1.0f, 0.f));
+		this->directionLight.setColor(glm::vec3(0.f, 1.0f, 0.f));
+		value = true;
+	}
+
 	this->skybox.Draw(player->getCurrentCamera()->getViewMatrix(), player->getCurrentCamera()->getProjectionMatrix());
+	this->setTint(value);
 
 	auto modelShader2 = ShaderManager::getModelShader2();
 	glUseProgram(*modelShader2);
@@ -143,13 +161,13 @@ void Workspace::render() {
 }
 
 //helper function for setting models unlit
-void Workspace::setUnlit(bool value) {
+void Workspace::setTint(bool value) {
 	int toNum = static_cast<int>(value);
 	if(toNum != 0)
 		toNum /= toNum;
 
-	GLuint isUnlitAddress = glGetUniformLocation(*ShaderManager::getModelShader(), "isUnlit");
-	glUniform1i(isUnlitAddress, toNum);
+	GLuint isTintedAddress = glGetUniformLocation(*ShaderManager::getSkyboxShader(), "isTinted");
+	glUniform1i(isTintedAddress, toNum);
 }
 
 

@@ -179,3 +179,6 @@ Camera* Player::getCurrentCamera() {
 	return this->currentCamera;
 }
 
+FirstPerson* Player::getFirstPersonCamera() {
+	return &this->pCamera;
+}

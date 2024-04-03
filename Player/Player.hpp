@@ -43,6 +43,7 @@ class Player {
 
 
 		Camera* getCurrentCamera();
+		FirstPerson* getFirstPersonCamera();
 
 	public: 
 		Transform& getPlayerTransform() {
