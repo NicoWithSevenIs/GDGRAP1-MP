@@ -104,8 +104,8 @@ float PointLight::getQuadratic() {
 }
 
 void PointLight::setPointLightFrontOfPlayer(glm::vec3 position) {
-	float z = position.z;
-	float zOffset = z + 15.f;
-	position.z = zOffset;
+	float x = position.x;
+	float xOffset = x + 15.f;
+	position.x = xOffset;
 	this->lightPosition = position;
 }

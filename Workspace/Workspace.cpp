@@ -75,7 +75,6 @@ void Workspace::start() {
 
 	this->player = new Player();
 
-	this->pointLight.setPosition(this->player->getFirstPersonCamera()->getCameraFront() + this->player->getFirstPersonCamera()->getCameraPos());
 }
 
 
@@ -179,7 +178,6 @@ void Workspace::update() {
 
 	this->player->moveXZ(0.01f, &this->pointLight);
 	this->player->moveY(0.01f, &this->pointLight);
-	this->pointLight.setPosition(this->player->getFirstPersonCamera()->getCameraFront() + this->player->getFirstPersonCamera()->getCameraPos());
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 	for (auto j : i) {
 		j.second.Invoke();

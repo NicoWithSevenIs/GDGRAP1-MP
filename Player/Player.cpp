@@ -179,19 +179,10 @@ void Player::moveXZ(float speed, PointLight* pointLight) {
 		getPlayerTransform().translate(direction);
 		glm::vec3 current = getPlayerTransform().getPosition();
 		getPlayerTransform().lookAt(current, previous);
-		pointLight->setPosition(pCamera.getCameraFront() + pCamera.getCameraPos());
+		pointLight->setPosition(this->playerModel.getTransform().getTranslate());
 	}
 
 
-	/*my old alg
-
-		glm::vec3 current = pCamera.getCameraPos();
-		glm::vec3 target = pCamera.getCameraPos() - pCamera.getCameraFront();
-		glm::vec3 lookDir = glm::normalize(current - target);
-		float angle = atan2(lookDir.x, lookDir.z) * 180 / 3.14;
-		getPlayerTransform().setRotation({ 0,1,0 }, angle);
-	*/
-	
 
 }
 
@@ -210,9 +201,11 @@ void Player::moveY(float speed, PointLight* pointLight) {
 		pointLight->setPosition(pCamera.getCameraFront() + pCamera.getCameraPos());
 	}
 	else {
+	
 		glm::vec3 movementVector = glm::vec3(0, yInput * speed, 0);
 		getPlayerTransform().translate(movementVector);
-		pointLight->setPosition(pCamera.getCameraFront() + pCamera.getCameraPos());
+		pointLight->setPosition(this->playerModel.getTransform().getTranslate());
+
 	}
 	
 }
