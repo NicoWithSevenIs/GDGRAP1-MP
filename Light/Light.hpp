@@ -24,7 +24,7 @@ class Light {
 
 	public:
 		virtual void Draw() = 0;
-
+		virtual void DrawNormalMapped() = 0;
 	public:
 		void setPosition(glm::vec3 pos);
 		void setColor(glm::vec3 color);

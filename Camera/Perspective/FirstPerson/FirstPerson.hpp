@@ -10,5 +10,5 @@ class FirstPerson : public Perspective {
 
 	public:
 		void Draw();
-
+		void DrawNormalMapped();
 };

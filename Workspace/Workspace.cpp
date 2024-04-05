@@ -1,9 +1,9 @@
 #include "Workspace.hpp"
 #include "../Config.hpp"
 
-Workspace::Workspace(): 
+Workspace::Workspace() :
 	skybox(TexInfo(6))
-{
+{	
 	this->window = NULL;
 
 	this->isMovingLightSource = false;
@@ -47,17 +47,16 @@ bool Workspace::awake() {
 void Workspace::start() {
 
 	ShaderManager::LoadShaders();
-	this->player = new Player();
 	this->skybox.initialize();
 
-	/*
-	models.push_back(new Model3D("3D/anemo.obj", new TexInfo("3D/anemo.png") ));
-	models[0]->getTransform().setVector(TransformType::Translation, glm::vec3(5.f, 2.f, 0.f));
-	models[0]->getTransform().setVector(TransformType::Scale, glm::vec3(0.15f, 0.15f, 0.15f));
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
+	models[0]->getTransform().setTranslation(glm::vec3(25.f, -15.f, 10.f));
+	models[0]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
 
-	//see Transform
-	models[0]->getTransform().overrideTransformationOrder(TransformType::RotationAxis, TransformType::Scale, TransformType::Translation);
-	*/
+
+	this->player = new Player();
+
+	this->pointLight.setPosition(this->player->getFirstPersonCamera()->getCameraFront() + this->player->getFirstPersonCamera()->getCameraPos());
 }
 
 
@@ -72,13 +71,49 @@ void Workspace::subscribe() {
 
 /*Draws in the models when cloning is enabled*/
 void Workspace::render() {
-	
-	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	bool value;
+
+	if (player->getCurrentCamera() != player->getFirstPersonCamera()) {
+		GLint tintLoc = glGetUniformLocation(*ShaderManager::getSkyboxShader(), "tint");
+		glUniform1i(tintLoc, 1);
+
+		this->pointLight.setColor(glm::vec3(1.f, 1.f, 1.f));
+		this->directionLight.setColor(glm::vec3(1.f, 1.f, 1.f));
+		value = false;
+		
+	}
+	else {
+		this->pointLight.setColor(glm::vec3(0.f, 1.0f, 0.f));
+		this->directionLight.setColor(glm::vec3(0.f, 1.0f, 0.f));
+		value = true;
+	}
 
 	this->skybox.Draw(player->getCurrentCamera()->getViewMatrix(), player->getCurrentCamera()->getProjectionMatrix());
+	this->setTint(value);
+
+	auto modelShader2 = ShaderManager::getModelShader2();
+	glUseProgram(*modelShader2);
+
+	this->player->getCurrentCamera()->Draw();
 
 	this->directionLight.Draw();
 	this->pointLight.Draw();
+
+	
+
+	models[0]->Draw();
+
+	auto modelShader = ShaderManager::getModelShader();
+	glUseProgram(*modelShader);
+
+	this->player->getCurrentCamera()->DrawNormalMapped();
+
+	this->directionLight.DrawNormalMapped();
+	this->pointLight.DrawNormalMapped();
+
+	player->Draw();
+
 
 	/*
 
@@ -89,24 +124,29 @@ void Workspace::render() {
 	*/
 
 	//this->pointLight.setPosition(models[0]->getTransform().getTransformedPosition());
-	//this->setUnlit(false);
+
+	//auto modelShader2 = ShaderManager::getModelShader2();
+	//glUseProgram(*modelShader2);
+
+	//this->directionLight.Draw();
+	//this->pointLight.Draw();
+	//
+	//this->player->getCurrentCamera()->Draw();
+
 	//models[0]->Draw();
-
-
-	this->setUnlit(true);
-	player->Draw();
+	
 
 	
 }
 
 //helper function for setting models unlit
-void Workspace::setUnlit(bool value) {
+void Workspace::setTint(bool value) {
 	int toNum = static_cast<int>(value);
 	if(toNum != 0)
 		toNum /= toNum;
 
-	GLuint isUnlitAddress = glGetUniformLocation(*ShaderManager::getModelShader(), "isUnlit");
-	glUniform1i(isUnlitAddress, toNum);
+	GLuint isTintedAddress = glGetUniformLocation(*ShaderManager::getSkyboxShader(), "isTinted");
+	glUniform1i(isTintedAddress, toNum);
 }
 
 
@@ -115,7 +155,7 @@ void Workspace::update() {
 
 	this->player->moveXZ(0.01f);
 	this->player->moveY(0.01f);
-
+	this->pointLight.setPosition(this->player->getFirstPersonCamera()->getCameraFront() + this->player->getFirstPersonCamera()->getCameraPos());
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 	for (auto j : i) {
 		j.second.Invoke();

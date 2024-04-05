@@ -23,10 +23,16 @@ void Camera::setCameraPos(glm::vec3 cameraPos) {
 }
 
 void Camera::Draw() {
-	GLuint cameraPosAddress = glGetUniformLocation(*ShaderManager::getModelShader(), "cameraPos");
-	glUniform3fv(cameraPosAddress, 1, glm::value_ptr(this->cameraPos));	
+	GLuint cameraPosAddress2 = glGetUniformLocation(*ShaderManager::getModelShader2(), "cameraPos");
+	glUniform3fv(cameraPosAddress2, 1, glm::value_ptr(this->cameraPos));
+
 }
 
+void Camera::DrawNormalMapped() {
+	GLuint cameraPosAddress = glGetUniformLocation(*ShaderManager::getModelShader(), "cameraPos");
+	glUniform3fv(cameraPosAddress, 1, glm::value_ptr(this->cameraPos));
+
+}
 glm::mat4 Camera::getViewMatrix() {
 	return this->viewMatrix;
 }
