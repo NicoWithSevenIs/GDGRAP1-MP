@@ -5,7 +5,6 @@
 ShaderManager::ShaderManager() {
     this->shaders["Model"] = nullptr;
     this->shaders["Skybox"] = nullptr;
-    this->shaders["Model2"] = nullptr;
 }
 
 ShaderManager::~ShaderManager() {
@@ -24,8 +23,6 @@ ShaderManager* ShaderManager::getInstance() {
 }
 
 void ShaderManager::LoadShader(std::string key, std::string path, unsigned int shader_type) {
-
-    std::cout << "Currently loading: " << key << std::endl;
 
     std::fstream shaderSrc(path);
 
@@ -64,11 +61,6 @@ void ShaderManager::LoadShaders() {
     i->LoadShader("Skybox", "Shaders/skybox.frag", GL_FRAGMENT_SHADER);
 
     glLinkProgram(*getSkyboxShader());
-
-    i->LoadShader("Model2", "Shaders/shaders2.vert", GL_VERTEX_SHADER);
-    i->LoadShader("Model2", "Shaders/shaders2.frag", GL_FRAGMENT_SHADER);
-
-    glLinkProgram(*getModelShader2());
 }
 
 GLuint* ShaderManager::getModelShader() {
@@ -79,6 +71,3 @@ GLuint* ShaderManager::getSkyboxShader() {
     return getInstance()->shaders["Skybox"];
 }
 
-GLuint* ShaderManager::getModelShader2() {
-    return getInstance()->shaders["Model2"];
-}

@@ -10,7 +10,6 @@ class DirectionLight : public Light {
 		DirectionLight();
 	public:
 		void Draw();
-		void DrawNormalMapped();
 		void setDirection(float x, float y, float z);
 		glm::vec3 getLightDirection();
 };

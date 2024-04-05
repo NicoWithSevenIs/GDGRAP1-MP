@@ -4,9 +4,6 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "../tiny_obj_loader.h"
 
 #include <iostream>
@@ -28,7 +25,6 @@ class ObjData {
 
 	public:
 		void LoadModel(std::string filename);
-		void LoadPlayer(std::string filename);
 		bool isInitialized();
 
 	public:

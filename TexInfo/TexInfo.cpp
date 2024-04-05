@@ -7,12 +7,14 @@ TexInfo::TexInfo(std::string filename) {
 	stbi_set_flip_vertically_on_load(true);
 	this->tex_bytes = stbi_load(filename.c_str(), &this->img_width, &this->img_height, &this->colorChannels, 0);
 	this->initialized = tex_bytes != NULL;
-    std::cout << "filename: " << filename << std::endl;
+
 	std::cout << (initialized ? "Loaded Succesfully" : "Failed to Load Texture" ) << std::endl;
 
 }
 
 TexInfo::TexInfo(int size) {
+
+
     std::string faceSkybox[]{
       "Skybox/underwater/uw_bk.jpg",
       "Skybox/underwater/uw_ft.jpg",
@@ -25,7 +27,25 @@ TexInfo::TexInfo(int size) {
       "Skybox/underwater/uw_rt.jpg"
       
     };
- 
+ /*   std::string faceSkybox[]{
+         "Skybox/underwater/uw_lf.jpg",
+         "Skybox/underwater/uw_rt.jpg",
+         "Skybox/underwater/uw_up.jpg",
+         "Skybox/underwater/uw_dn.jpg",
+         "Skybox/underwater/uw_ft.jpg",
+         "Skybox/underwater/uw_bk.jpg"
+    };*/
+    
+    
+ /*   std::string faceSkybox[]{
+         "Skybox/rainbow_rt.png",
+         "Skybox/rainbow_lf.png",
+         "Skybox/rainbow_up.png",
+         "Skybox/rainbow_dn.png",
+         "Skybox/rainbow_ft.png",
+         "Skybox/rainbow_bk.png"
+    };*/
+
     for (unsigned int i = 0; i < size; i++) {
         int w, h, skyChannel;
         stbi_set_flip_vertically_on_load(false);
@@ -35,26 +55,8 @@ TexInfo::TexInfo(int size) {
         this->vecHeight.push_back(h);
         this->vecColorChannels.push_back(skyChannel);
     }
-    
-    
-    stbi_set_flip_vertically_on_load(true);
-
-}
-
-TexInfo::TexInfo(std::string filename1, std::string filename2) {
-
 
     stbi_set_flip_vertically_on_load(true);
-    this->tex_bytes = stbi_load(filename1.c_str(), &this->img_width, &this->img_height, &this->colorChannels, 0);
-    this->initialized = tex_bytes != NULL;
-    std::cout << "BASE TEXTURE:" << std::endl;
-    std::cout << (initialized ? "Loaded Succesfully" : "Failed to Load Texture") << std::endl;
-
-    stbi_set_flip_vertically_on_load(true);
-    this->normal_bytes = stbi_load(filename2.c_str(), &this->img_width2, &this->img_height2, &this->colorChannels2, 0);
-    this->initialized = normal_bytes != NULL;
-    std::cout << "NORMAL MAP TEXTURE:" << std::endl;
-    std::cout << (initialized ? "Loaded Succesfully" : "Failed to Load Texture") << std::endl;
 
 }
 
@@ -77,7 +79,3 @@ std::vector<unsigned char*>* TexInfo::getSkyboxDatas() { return &this->datas; }
 std::vector<int> TexInfo::getVecWidth() { return this->vecWidth; }
 std::vector<int> TexInfo::getVecHeight() { return this->vecHeight; }
 std::vector<int> TexInfo::getVecColorChannels() { return this->vecColorChannels; }
-unsigned char* TexInfo::getNormalBytes() { return this->normal_bytes; }
-int TexInfo::getWidth2() { return this->img_width2; }
-int TexInfo::getHeight2() { return this->img_height2; }
-int TexInfo::getColorChannels2() { return this->colorChannels2; }

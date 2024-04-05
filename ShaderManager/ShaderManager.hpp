@@ -36,6 +36,7 @@ class ShaderManager {
 		static void LoadShaders();
 		static GLuint* getModelShader();
 		static GLuint* getSkyboxShader();
-		static GLuint* getModelShader2();
+
+
 };
 

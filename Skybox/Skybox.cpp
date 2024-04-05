@@ -90,7 +90,8 @@ void Skybox::initializeBuffers() {
 void Skybox::Draw(glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
 
     auto skyboxShader = ShaderManager::getSkyboxShader();
-    
+    auto modelShader = ShaderManager::getModelShader();
+
     glDepthMask(GL_FALSE);
     glDepthFunc(GL_LEQUAL);
     glUseProgram(*skyboxShader);
@@ -109,7 +110,5 @@ void Skybox::Draw(glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LESS);
-
-
-
+    glUseProgram(*modelShader);
 }

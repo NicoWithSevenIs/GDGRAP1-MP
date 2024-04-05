@@ -3,7 +3,6 @@
 out vec4 FragColor;
 
 uniform sampler2D tex0;
-uniform sampler2D norm_tex;
 
 uniform vec3 pointLightPos;
 uniform vec3 pointLightColor;
@@ -30,31 +29,19 @@ uniform float directionLightSpecPhong;
 
 uniform vec3 cameraPos;
 
+uniform int isUnlit;
+
 uniform float directionLightBrightness;
 
 uniform float pointLightBrightness;
-
-uniform int isUnlit;
 
 in vec2 texCoord;
 in vec3 normCoord;
 in vec3 fragPos;
 
-in mat3 TBN;
-
 void main() {
-    
-    vec4 pixelColor = texture(tex0, texCoord);
-    if (pixelColor.a < 0.1) {
-        discard;
-    }
-	
-    //vec3 normal = normalize(normCoord);
-      vec3 normal = texture(norm_tex, texCoord).rgb;
-      normal = normalize(normal * 2.0 - 1.0);
-      normal = normalize(TBN * normal);
-      
 
+	vec3 normal = normalize(normCoord);
     vec3 viewDir = normalize(cameraPos - fragPos);
 
     // POINT LIGHT STUFF //
@@ -99,6 +86,12 @@ void main() {
 
     vec3 result = dirLightResult + pointLightResult;
 
-    FragColor = vec4(result, 1.0) * texture(tex0, texCoord);  
+    if (isUnlit == 1) {
+        FragColor = vec4(result, 1.0) * texture(tex0, texCoord);
+    }
+    else {
+        FragColor = vec4(pointLightColor, 1.0); /* * texture(tex0, texCoord) */
+    }
+    
 
 }

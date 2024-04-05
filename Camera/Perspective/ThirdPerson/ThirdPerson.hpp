@@ -19,7 +19,6 @@ class ThirdPerson :public Perspective {
 
 	public:
 		void Draw();
-		void DrawNormalMapped();
 
 
 };

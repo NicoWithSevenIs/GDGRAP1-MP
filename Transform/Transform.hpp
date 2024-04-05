@@ -40,8 +40,5 @@ class Transform {
 		glm::vec3 getPosition();
 
 		float getYRotation();
-		glm::vec3 getTranslate();
-		void setScale(glm::vec3 s);
-		void Scale(glm::vec3 s);
 		
 };

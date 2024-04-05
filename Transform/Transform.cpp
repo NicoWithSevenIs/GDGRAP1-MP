@@ -41,14 +41,6 @@ glm::vec3 Transform::getPosition() {
 	return transformMatrix[3];
 }
 
-glm::vec3 Transform::getTranslate() {
-	return this->translation;
-}
-
-void Transform::setScale(glm::vec3 s) { this->scale = s; }
-void Transform::Scale(glm::vec3 s) { this->scale += s; }
-
-
 /*
 Method 2
 Source: https://mmmovania.blogspot.com/2014/03/making-opengl-object-look-at-another.html?m=1
