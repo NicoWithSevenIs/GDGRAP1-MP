@@ -3,11 +3,14 @@
 #include "Player.hpp"
 #include <string>
 Player::Player(glm::vec3 position):
-	playerModel(Model3D("3D/sub.obj", new TexInfo("3D/fish.png"))),
-	pCamera(glm::vec3(0.0f, -5.0f, 0.0f), glm::vec3(0.f, -5, -1.0f)),
-	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0, -1.0f), &playerModel.getTransform()),
+	playerModel("3D/SubLow0Smooth.obj", new TexInfo("3D/fish.png", "3D/fish_normal.png"), true),
+	pCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.f, 0.f, -1.0f)),
+	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
-{
+{	
+
+	this->playerModel.getTransform().setScale(glm::vec3(0.001027f, 0.001027f, 0.001027f));
+
 	this->currentCamera = &pCamera;
 	this->previousPos = position;
 
@@ -142,9 +145,6 @@ void Player::addCameraControls() {
 	
 	};
 
-	
-
-
 }
 
 void Player::moveXZ(float speed) {
@@ -216,14 +216,17 @@ void Player::moveY(float speed) {
 }
 
 void Player::Draw() {
-	currentCamera->Draw();
+	//currentCamera->Draw();
 
 	//float delta = InputManager::getInstance()->getHoverDelta().x / SCREEN_WIDTH - 0.5f;
 	//getPlayerTransform().setTheta(delta*180);
-	playerModel.Draw();
+	playerModel.DrawNormalMapped();
 }
 
 Camera* Player::getCurrentCamera() {
 	return this->currentCamera;
 }
 
+FirstPerson* Player::getFirstPersonCamera() {
+	return &this->pCamera;
+}

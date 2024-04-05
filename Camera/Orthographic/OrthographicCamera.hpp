@@ -28,6 +28,7 @@ class Orthographic : public Camera {
 
 	public:
 		void Draw();
+		void DrawNormalMapped();
 	
 
 };

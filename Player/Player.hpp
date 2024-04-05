@@ -39,10 +39,8 @@ class Player {
 		void moveXZ(float speed);
 		void moveY(float speed);
 		
-
-
-
 		Camera* getCurrentCamera();
+		FirstPerson* getFirstPersonCamera();
 
 	public: 
 		Transform& getPlayerTransform() {

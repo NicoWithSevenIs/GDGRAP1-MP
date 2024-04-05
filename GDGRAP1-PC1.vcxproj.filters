@@ -145,5 +145,7 @@
   <ItemGroup>
     <None Include="Shaders\skybox.frag" />
     <None Include="Shaders\skybox.vert" />
+    <None Include="Shaders\player.vert" />
+    <None Include="Shaders\player.frag" />
   </ItemGroup>
 </Project>

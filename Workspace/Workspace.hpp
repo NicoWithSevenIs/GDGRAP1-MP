@@ -30,14 +30,13 @@ class Workspace {
 
 		Player* player;
 		std::vector<Model3D*> models;
+		
 		Skybox skybox;
-
+		
 		PointLight pointLight;
 		DirectionLight directionLight;
 
 		bool isMovingLightSource;
-	
-		
 
 
 		
@@ -51,7 +50,7 @@ class Workspace {
 	private:
 		void configureRotation(int index, glm::vec3 v, float thetaOffset);
 	private:
-		void setUnlit(bool value);
+		void setTint(bool value);
 	public:
 		void run();
 
