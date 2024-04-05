@@ -45,7 +45,6 @@ glm::vec3 Transform::getTranslate() {
 	return this->translation;
 }
 
-void Transform::setScale(glm::vec3 s) { this->scale = s; }
 void Transform::Scale(glm::vec3 s) { this->scale += s; }
 
 
