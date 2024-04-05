@@ -4,7 +4,7 @@
 #include <string>
 Player::Player(glm::vec3 position):
 	playerModel("3D/SubLow0Smooth.obj", new TexInfo("3D/fish.png", "3D/fish_normal.png"), true),
-	pCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.f, 0.f, -1.0f)),
+	pCamera(glm::vec3(0.0f, -5.0f, 0.0f), glm::vec3(0.f, 0.f, -1.0f)),
 	tCamera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.f, 0.f, -1.0f), &playerModel.getTransform()),
 	oCamera(glm::vec3(0, 5.f, 0), glm::vec3(0.f, -1.f, -0.1f), OrthoData(1.f, -1, 100))
 {	
@@ -200,7 +200,7 @@ void Player::moveY(float speed) {
 	if(currentCamera == &oCamera)
 		return;
 
-	Utils::printVec3(getPlayerTransform().getPosition());
+	//Utils::printVec3(getPlayerTransform().getPosition());
 	if (yInput == 0 || getPlayerTransform().getPosition().y + yInput * speed >= 1)
 		return;
 
