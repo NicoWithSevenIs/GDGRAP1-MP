@@ -53,6 +53,25 @@ void Workspace::start() {
 	models[0]->getTransform().setTranslation(glm::vec3(25.f, -15.f, 10.f));
 	models[0]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
 
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
+	models[1]->getTransform().setTranslation(glm::vec3(45.f, 5.f, 10.f));
+	models[1]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
+
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
+	models[2]->getTransform().setTranslation(glm::vec3(-10.f, 85.f, -10.f));
+	models[2]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
+
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
+	models[3]->getTransform().setTranslation(glm::vec3(5.f, -85.f, 10.f));
+	models[3]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
+
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
+	models[4]->getTransform().setTranslation(glm::vec3(13.f, -125.f, -50.f));
+	models[4]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
+	
+	models.push_back(new Model3D("3D/submarine.obj", new TexInfo("3D/submarine.png"), false));
+	models[5]->getTransform().setTranslation(glm::vec3(-30.f, 4.f, 0.f));
+	models[5]->getTransform().setScale(glm::vec3(0.15f, 0.15f, 0.15f));
 
 	this->player = new Player();
 
@@ -103,6 +122,11 @@ void Workspace::render() {
 	
 
 	models[0]->Draw();
+	models[1]->Draw();
+	models[2]->Draw();
+	models[3]->Draw();
+	models[4]->Draw();
+	models[5]->Draw();
 
 	auto modelShader = ShaderManager::getModelShader();
 	glUseProgram(*modelShader);
@@ -153,8 +177,8 @@ void Workspace::setTint(bool value) {
 
 void Workspace::update() {
 
-	this->player->moveXZ(0.01f);
-	this->player->moveY(0.01f);
+	this->player->moveXZ(0.01f, &this->pointLight);
+	this->player->moveY(0.01f, &this->pointLight);
 	this->pointLight.setPosition(this->player->getFirstPersonCamera()->getCameraFront() + this->player->getFirstPersonCamera()->getCameraPos());
 	std::unordered_map<int, KeyData>& i = InputManager::getPressed();
 	for (auto j : i) {

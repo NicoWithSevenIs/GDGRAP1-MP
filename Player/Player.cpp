@@ -147,7 +147,7 @@ void Player::addCameraControls() {
 
 }
 
-void Player::moveXZ(float speed) {
+void Player::moveXZ(float speed, PointLight* pointLight) {
 	glm::vec3 direction = glm::vec3(xInput, 0, zInput);
 	
 
@@ -166,7 +166,7 @@ void Player::moveXZ(float speed) {
 	
 		getPlayerTransform().setTranslation(pCamera.getCameraPos());
 		getPlayerTransform().lookAt(pCamera.getCameraPos(), pCamera.getCameraPos() - pCamera.getCameraFront());
-	
+		pointLight->setPosition(pCamera.getCameraFront() + pCamera.getCameraPos());
 	
 	}
 	else if (currentCamera == &tCamera) {
@@ -179,7 +179,7 @@ void Player::moveXZ(float speed) {
 		getPlayerTransform().translate(direction);
 		glm::vec3 current = getPlayerTransform().getPosition();
 		getPlayerTransform().lookAt(current, previous);
-			
+		pointLight->setPosition(pCamera.getCameraFront() + pCamera.getCameraPos());
 	}
 
 
@@ -195,22 +195,24 @@ void Player::moveXZ(float speed) {
 
 }
 
-void Player::moveY(float speed) {
+void Player::moveY(float speed, PointLight* pointLight) {
 
 	if(currentCamera == &oCamera)
 		return;
 
-	//Utils::printVec3(getPlayerTransform().getPosition());
+	Utils::printVec3(getPlayerTransform().getPosition());
 	if (yInput == 0 || getPlayerTransform().getPosition().y + yInput * speed >= 1)
 		return;
 
 	if (currentCamera == &pCamera) {
 		glm::vec3 cPos = pCamera.getCameraPos();
 		pCamera.setCameraPos({ cPos.x, cPos.y + yInput * speed, cPos.z});
+		pointLight->setPosition(pCamera.getCameraFront() + pCamera.getCameraPos());
 	}
 	else {
 		glm::vec3 movementVector = glm::vec3(0, yInput * speed, 0);
 		getPlayerTransform().translate(movementVector);
+		pointLight->setPosition(pCamera.getCameraFront() + pCamera.getCameraPos());
 	}
 	
 }

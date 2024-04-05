@@ -4,7 +4,7 @@
 #include "../Camera/Orthographic/OrthographicCamera.hpp"
 #include "../Camera/Perspective/FirstPerson/FirstPerson.hpp"
 #include "../Camera/Perspective/ThirdPerson/ThirdPerson.hpp"
-
+#include "../Light/PointLight.hpp"
 
 
 class Player {
@@ -36,8 +36,8 @@ class Player {
 		void Draw();
 
 	public:
-		void moveXZ(float speed);
-		void moveY(float speed);
+		void moveXZ(float speed, PointLight* pointLight);
+		void moveY(float speed, PointLight* pointLight);
 		
 		Camera* getCurrentCamera();
 		FirstPerson* getFirstPersonCamera();
